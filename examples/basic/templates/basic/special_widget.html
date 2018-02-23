@@ -1,0 +1,7 @@
+{% extends 'tapeforms/fields/default.html' %}
+
+
+{% block widget %}
+	<style type="text/css">.special-widget { padding: 4em; }</style>
+	<div class="special-widget">{{ block.super }}</div>
+{% endblock %}

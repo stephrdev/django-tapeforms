@@ -1,0 +1,18 @@
+{% load tapeforms %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Simple</title>
+</head>
+
+<body>
+	<form action="." method="post" novalidate>
+		{% csrf_token %}
+		{% form form %}
+		<button type="submit">Submit</button>
+	</form>
+</body>
+</html>

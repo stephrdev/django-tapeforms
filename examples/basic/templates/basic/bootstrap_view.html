@@ -1,0 +1,26 @@
+{% load tapeforms %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Simple Bootstrap</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+</head>
+
+<body>
+	<div style="padding:2em">
+		<div class="card">
+			<div class="card-body">
+				<h5 class="card-title">My form</h5>
+				<form action="." method="post" novalidate>
+					{% csrf_token %}
+					{% form form %}
+					<p><button type="submit" class="btn btn-primary">Submit</button></p>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
