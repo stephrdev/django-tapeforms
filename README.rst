@@ -4,7 +4,7 @@ django-tapeforms
 Usage
 -----
 
-Pleas refer to the documentation to learn how to use tapeforms.
+Please refer to the documentation to learn how to use tapeforms.
 
 
 Prepare for development
