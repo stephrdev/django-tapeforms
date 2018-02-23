@@ -17,10 +17,10 @@ setup(
     version=VERSION,
     description='A helper to render Django forms using HTML templates.',
     long_description=long_description,
-    url='https://github.com/moccu/django-tapeforms',
+    url='https://github.com/stephrdev/django-tapeforms',
     project_urls={
-        'Bug Reports': 'https://github.com/moccu/django-tapeforms/issues',
-        'Source': 'https://github.com/moccu/django-tapeforms',
+        'Bug Reports': 'https://github.com/stephrdev/django-tapeforms/issues',
+        'Source': 'https://github.com/stephrdev/django-tapeforms',
     },
     author='Stephan Jaekel',
     author_email='steph@rdev.info',

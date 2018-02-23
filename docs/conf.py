@@ -26,7 +26,7 @@ extensions = [
 def linkcode_resolve(domain, info):
     """Link source code to GitHub."""
     project = 'django-tapeforms'
-    github_user = 'moccu'
+    github_user = 'stephrdev'
     head = 'master'
 
     if domain != 'py' or not info['module']:
