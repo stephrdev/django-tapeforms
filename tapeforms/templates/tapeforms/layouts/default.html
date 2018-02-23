@@ -1,0 +1,20 @@
+{% load tapeforms %}
+
+
+{% block errors %}
+	{% include 'tapeforms/includes/errorlist.html' %}
+{% endblock %}
+
+{% block fields %}
+	{% block hidden_fields %}
+		{% for field in hidden_fields %}
+			{{ field }}
+		{% endfor %}
+	{% endblock %}
+
+	{% block visible_fields %}
+		{% for field in visible_fields %}
+			{% formfield field %}
+		{% endfor %}
+	{% endblock %}
+{% endblock %}

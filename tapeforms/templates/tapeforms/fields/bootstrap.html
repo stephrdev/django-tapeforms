@@ -1,0 +1,16 @@
+{% extends 'tapeforms/fields/default.html' %}
+
+{% block label %}
+	{% if widget_input_type != 'checkbox' %}
+		{# If rendering a checkbox, bootstrap requires us to swap ordering of label and input. #}
+		{{ block.super }}
+	{% endif %}
+{% endblock %}
+
+{% block widget %}
+    {{ block.super }}
+	{% if widget_input_type == 'checkbox' %}
+		{# See label block, we need to render label after input if widget input type is checkbox. #}
+		{% include 'tapeforms/includes/label_tag.html' %}
+	{% endif %}
+{% endblock %}

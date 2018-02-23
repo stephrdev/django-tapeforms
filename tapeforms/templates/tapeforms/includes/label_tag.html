@@ -1,0 +1,6 @@
+<label{% if label_css_class %} class="{{ label_css_class }}"{% endif %}{% if field_id %} for="{{ field_id }}"{% endif %}>
+	{{ pre_label }}
+	{{ label }}
+	{{ post_label }}
+	{% if required %} <span class="required">*</span>{% endif %}
+</label>

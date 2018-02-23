@@ -1,0 +1,21 @@
+<div class="{{ container_css_class }} {{ container_css_class }}-{{ field_name }} form-widget-{{ widget_class_name }}{% if required %} is-required{% endif %}{% if errors %} has-errors{% endif %}{% if field.css_classes %} {{ field.css_classes }}{% endif %}">
+	{% block label %}
+		{% include 'tapeforms/includes/label_tag.html' %}
+	{% endblock %}
+
+	{% block field %}
+		{% block widget %}
+			{{ field }}
+		{% endblock %}
+
+		{% block errors %}
+			{% include 'tapeforms/includes/errorlist.html' %}
+		{% endblock %}
+
+		{% block help_text %}
+			{% if help_text %}
+				<p class="help-text">{{ help_text }}</p>
+			{% endif %}
+		{% endblock %}
+	{% endblock %}
+</div>
