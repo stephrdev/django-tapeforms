@@ -12,10 +12,15 @@ Prepare for development
 
 A Python 3.6 interpreter is required in addition to pipenv.
 
+.. code-block:: shell
+
     $ pipenv install --python 3.6
     $ pipenv shell
     $ pip install -e .
 
+
 Now you're ready to start the example project to experiment with tapeforms.
+
+.. code-block:: shell
 
     $ pipenv run python examples/manage.py runserver
