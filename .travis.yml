@@ -15,6 +15,6 @@ env:
 install:
   - pip install pipenv
   - pipenv install --dev
-  - pipenv install --dev $DEPS
+  - pipenv run pip install $DEPS
 
-script: py.test --cov
+script: pipenv run py.test --cov
