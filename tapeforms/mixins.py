@@ -173,47 +173,7 @@ class TapeformMixin:
         :param bound_field: `BoundField` instance to return css class for.
         :return: A css class string or `None`
         """
-        return self.get_field_label_css_class or None
-
-    def get_widget_css_class(self, field_name, field):
-        """
-        Returns the optional widget css class to use when rendering the
-        form's field widget.
-
-        By default, returns `None` which means "no css class / no change".
-
-        :param field_name: The field name of the corresponding field for the widget.
-        :param field: `Field` instance to return css class for.
-        :return: A css class string or `None`
-        """
-        return self.widget_css_class or None
-
-    def get_widget_template(self, field_name, field):
-        """
-        Returns the optional widget template to use when rendering the widget
-        for a form field.
-
-        Preference of template selection:
-            1. Templete from `widget_template_overrides` selected by field name
-            2. Templete from `widget_template_overrides` selected by widget class
-
-        By default, returns `None` which means "use Django's default widget template".
-
-        :param field_name: The field name to select a widget template for.
-        :param field: `Field` instance to return a widget template.
-        :return: Template name to use when rendering the widget or `None`
-        """
-        templates = self.widget_template_overrides or {}
-
-        template_name = templates.get(field_name, None)
-        if template_name:
-            return template_name
-
-        template_name = templates.get(field.widget.__class__, None)
-        if template_name:
-            return template_name
-
-        return None
+        return self.field_label_css_class or None
 
     def get_field_context(self, bound_field):
         """
@@ -260,3 +220,43 @@ class TapeformMixin:
             'widget_class_name': widget_class_name,
             'widget_input_type': getattr(widget, 'input_type', None) or widget_class_name
         }
+
+    def get_widget_template(self, field_name, field):
+        """
+        Returns the optional widget template to use when rendering the widget
+        for a form field.
+
+        Preference of template selection:
+            1. Templete from `widget_template_overrides` selected by field name
+            2. Templete from `widget_template_overrides` selected by widget class
+
+        By default, returns `None` which means "use Django's default widget template".
+
+        :param field_name: The field name to select a widget template for.
+        :param field: `Field` instance to return a widget template.
+        :return: Template name to use when rendering the widget or `None`
+        """
+        templates = self.widget_template_overrides or {}
+
+        template_name = templates.get(field_name, None)
+        if template_name:
+            return template_name
+
+        template_name = templates.get(field.widget.__class__, None)
+        if template_name:
+            return template_name
+
+        return None
+
+    def get_widget_css_class(self, field_name, field):
+        """
+        Returns the optional widget css class to use when rendering the
+        form's field widget.
+
+        By default, returns `None` which means "no css class / no change".
+
+        :param field_name: The field name of the corresponding field for the widget.
+        :param field: `Field` instance to return css class for.
+        :return: A css class string or `None`
+        """
+        return self.widget_css_class or None
