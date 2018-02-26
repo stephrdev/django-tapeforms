@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'tapeforms',
 
     'basic.apps.BasicConfig',
+    'fieldsets.apps.FieldsetsConfig',
 ]
 
 MIDDLEWARE = [

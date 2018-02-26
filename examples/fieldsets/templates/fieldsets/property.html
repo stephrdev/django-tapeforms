@@ -1,0 +1,23 @@
+{% load tapeforms %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Simple</title>
+</head>
+
+<body>
+	<form action="." method="post" novalidate>
+		{% csrf_token %}
+		{% for fieldset in form.get_fieldsets %}
+			<div class="{{ fieldset.extra.css_class|default:'fieldset' }} {{ fieldset.primary_fieldset|yesno:'is-primary,is-secondary' }}">
+				<h1>{{ fieldset.extra.title }}</h1>
+				{% form fieldset %}
+			</div>
+		{% endfor %}
+		<button type="submit">Submit</button>
+	</form>
+</body>
+</html>
