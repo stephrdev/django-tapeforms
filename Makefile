@@ -1,4 +1,4 @@
-.PHONY: clean tests docs
+.PHONY: clean tests cov docs runserver
 
 clean:
 	rm -fr docs/_build build/ dist/
@@ -13,3 +13,6 @@ cov: tests
 
 docs:
 	pipenv run make -C docs html
+
+runserver:
+	pipenv run python examples/manage.py runserver
