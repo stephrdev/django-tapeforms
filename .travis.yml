@@ -4,6 +4,12 @@ python:
   - "3.6"
   - "3.7-dev"
 
-install: pip install tox-travis tox-pipenv
+env:
+  - DEPS="Django>=2.0,<2.1"
 
-script: tox
+install:
+  - pip install pipenv
+  - pipenv install --dev
+  - pipenv install --dev $DEPS
+
+script: py.test --cov
