@@ -8,13 +8,12 @@ PAPEROPT_letter = -D latex_paper_size=letter
 ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 
-.PHONY: help clean apidoc html spelling linkcheck
+.PHONY: help clean apidoc html linkcheck
 
 help:
 	@echo "Please use \`make <target>' where <target> is one of"
 	@echo "  apidoc     to generate api docs"
 	@echo "  html       to make standalone HTML files"
-	@echo "  spelling   to check spelling "
 	@echo "  linkcheck  to check all external links for integrity"
 
 clean:
@@ -28,13 +27,9 @@ html:
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
 
-spelling:
-	$(SPHINXBUILD) -b spelling -W $(ALLSPHINXOPTS) $(BUILDDIR)/spelling
-	@echo
-	@echo "Spell check finished. The results are in $(BUILDDIR)/spelling."
-
 linkcheck:
 	$(SPHINXBUILD) -b linkcheck $(ALLSPHINXOPTS) $(BUILDDIR)/linkcheck
 	@echo
 	@echo "Link check complete; look for any errors in the above output " \
 	      "or in $(BUILDDIR)/linkcheck/output.txt."
+

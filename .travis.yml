@@ -1,10 +1,5 @@
 language: python
 
-addons:
-  apt:
-    packages:
-      - libenchant-dev
-
 python:
   - "3.6"
   - "3.7-dev"
@@ -15,6 +10,7 @@ env:
 install:
   - pip install pipenv
   - pipenv install --dev
+  - pipenv run pip install -e .
   - pipenv run pip install $DEPS
 
 script: pipenv run py.test --cov
