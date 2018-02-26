@@ -1,14 +1,63 @@
 from . import defaults
 
 
-class TapeformMixin:
+class TapeformLayoutMixin:
     """
-    Mixin to extend the forms capability to render itself as HTML template
-    (using the template tags provided by `tapeforms`).
+    Mixin to render a form of fieldset as HTML.
     """
 
     #: Layout template to use when rendering the form. Optional.
     layout_template = None
+
+    def get_layout_template(self, template_name=None):
+        """
+        Returns the layout template to use when rendering the form to HTML.
+
+        Preference of template selection:
+            1. Provided method argument `template_name`
+            2. Form class property `layout_template`
+            3. Globally defined default template from `defaults.LAYOUT_DEFAULT_TEMPLATE`
+
+        :param template_name: Optional template to use instead of other configurations.
+        :return: Template name to use when rendering the form.
+        """
+        if template_name:
+            return template_name
+
+        if self.layout_template:
+            return self.layout_template
+
+        return defaults.LAYOUT_DEFAULT_TEMPLATE
+
+    def get_layout_context(self):
+        """
+        Returns the context which is used when rendering the form to HTML.
+
+        The generated template context will contain the following variables:
+            * form: `Form` instance
+            * errors: `ErrorList` instance with non field errors and hidden field errors
+            * hidden_fields: All hidden fields to render.
+            * visible_fields: All visible fields to render.
+
+        :return: Template context for form rendering.
+        """
+        errors = self.non_field_errors()
+        for field in self.hidden_fields():
+            errors.extend(field.errors)
+
+        return {
+            'form': self,
+            'errors': errors,
+            'hidden_fields': self.hidden_fields(),
+            'visible_fields': self.visible_fields(),
+        }
+
+
+class TapeformMixin(TapeformLayoutMixin):
+    """
+    Mixin to extend the forms capability to render itself as HTML output.
+    (using the template tags provided by `tapeforms`).
+    """
 
     #: Field template to use when rendering a bound form-field. Optional.
     field_template = None
@@ -76,49 +125,6 @@ class TapeformMixin:
                 class_name = '{} {}'.format(
                     field.widget.attrs['class'], class_name)
             field.widget.attrs['class'] = class_name
-
-    def get_layout_template(self, template_name=None):
-        """
-        Returns the layout template to use when rendering the form to HTML.
-
-        Preference of template selection:
-            1. Provided method argument `template_name`
-            2. Form class property `layout_template`
-            3. Globally defined default template from `defaults.LAYOUT_DEFAULT_TEMPLATE`
-
-        :param template_name: Optional template to use instead of other configurations.
-        :return: Template name to use when rendering the form.
-        """
-        if template_name:
-            return template_name
-
-        if self.layout_template:
-            return self.layout_template
-
-        return defaults.LAYOUT_DEFAULT_TEMPLATE
-
-    def get_layout_context(self):
-        """
-        Returns the context which is used when rendering the form to HTML.
-
-        The generated template context will contain the following variables:
-            * form: `Form` instance
-            * errors: `ErrorList` instance with non field errors and hidden field errors
-            * hidden_fields: All hidden fields to render.
-            * visible_fields: All visible fields to render.
-
-        :return: Template context for form rendering.
-        """
-        errors = self.non_field_errors()
-        for field in self.hidden_fields():
-            errors.extend(field.errors)
-
-        return {
-            'form': self,
-            'errors': errors,
-            'hidden_fields': self.hidden_fields(),
-            'visible_fields': self.visible_fields(),
-        }
 
     def get_field_template(self, bound_field, template_name=None):
         """
