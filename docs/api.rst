@@ -6,5 +6,6 @@ API Reference
     :glob:
 
     api_mixins
+    api_fieldsets
     api_templatetags
     api_contrib
