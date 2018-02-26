@@ -4,6 +4,6 @@ python:
   - "3.6"
   - "3.7-dev"
 
-install: pip install tox-travis pipenv
+install: pip install tox-travis tox-pipenv
 
 script: tox
