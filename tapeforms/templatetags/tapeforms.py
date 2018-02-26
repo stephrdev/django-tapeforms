@@ -1,6 +1,8 @@
 from django import forms, template
 from django.template.loader import render_to_string
 
+from ..fieldsets import TapeformFieldset
+
 
 register = template.Library()
 
@@ -24,7 +26,7 @@ def form(context, form, **kwargs):
     :return: Rendered form (errors + hidden fields + fields) as HTML.
     """
 
-    if not isinstance(form, forms.Form):
+    if not isinstance(form, (forms.Form, TapeformFieldset)):
         raise template.TemplateSyntaxError(
             'Provided form should be a `Form` instance, actual type: {0}'.format(
                 form.__class__.__name__))
