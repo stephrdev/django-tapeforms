@@ -14,6 +14,7 @@ All Contents
     fieldsets
     contrib
     api
+    changelog
 
 
 Indices and tables

@@ -14,9 +14,10 @@ class TapeformLayoutMixin:
         Returns the layout template to use when rendering the form to HTML.
 
         Preference of template selection:
-            1. Provided method argument `template_name`
-            2. Form class property `layout_template`
-            3. Globally defined default template from `defaults.LAYOUT_DEFAULT_TEMPLATE`
+
+        1. Provided method argument `template_name`
+        2. Form class property `layout_template`
+        3. Globally defined default template from `defaults.LAYOUT_DEFAULT_TEMPLATE`
 
         :param template_name: Optional template to use instead of other configurations.
         :return: Template name to use when rendering the form.
@@ -34,10 +35,11 @@ class TapeformLayoutMixin:
         Returns the context which is used when rendering the form to HTML.
 
         The generated template context will contain the following variables:
-            * form: `Form` instance
-            * errors: `ErrorList` instance with non field errors and hidden field errors
-            * hidden_fields: All hidden fields to render.
-            * visible_fields: All visible fields to render.
+
+        * form: `Form` instance
+        * errors: `ErrorList` instance with non field errors and hidden field errors
+        * hidden_fields: All hidden fields to render.
+        * visible_fields: All visible fields to render.
 
         :return: Template context for form rendering.
         """
@@ -91,51 +93,17 @@ class TapeformMixin(TapeformLayoutMixin):
             self.apply_widget_template(field_name)
             self.apply_widget_css_class(field_name)
 
-    def apply_widget_template(self, field_name):
-        """
-        Applies widget template overrides if available.
-
-        The method uses the `get_widget_template` method to determine if the widget
-        template should be exchanged. If a template is available, the template_name
-        property of the widget instance is updated.
-
-        :param field_name: A field name of the form.
-        """
-        field = self.fields[field_name]
-        template_name = self.get_widget_template(field_name, field)
-
-        if template_name:
-            field.widget.template_name = template_name
-
-    def apply_widget_css_class(self, field_name):
-        """
-        Applies css classes to widgets if available.
-
-        The method uses the `get_widget_template` method to determine if the widget
-        template should be exchanged. If a template is available, the template_name
-        property of the widget instance is updated.
-
-        :param field_name: A field name of the form.
-        """
-        field = self.fields[field_name]
-        class_name = self.get_widget_css_class(field_name, field)
-
-        if class_name:
-            if 'class' in field.widget.attrs:
-                class_name = '{} {}'.format(
-                    field.widget.attrs['class'], class_name)
-            field.widget.attrs['class'] = class_name
-
     def get_field_template(self, bound_field, template_name=None):
         """
         Returns the field template to use when rendering a form field to HTML.
 
         Preference of template selection:
-            1. Provided method argument `template_name`
-            2. Templete from `field_template_overrides` selected by field name
-            3. Templete from `field_template_overrides` selected by field class
-            4. Form class property `field_template`
-            5. Globally defined default template from `defaults.LAYOUT_FIELD_TEMPLATE`
+
+        1. Provided method argument `template_name`
+        2. Templete from `field_template_overrides` selected by field name
+        3. Templete from `field_template_overrides` selected by field class
+        4. Form class property `field_template`
+        5. Globally defined default template from `defaults.LAYOUT_FIELD_TEMPLATE`
 
         :param bound_field: `BoundField` instance to select a template for.
         :param template_name: Optional template to use instead of other configurations.
@@ -186,20 +154,20 @@ class TapeformMixin(TapeformLayoutMixin):
         Returns the context which is used when rendering a form field to HTML.
 
         The generated template context will contain the following variables:
-            * form: `Form` instance
-            * field: `BoundField` instance of the field
-            * field_id: Field ID to use in `<label for="..">`
-            * field_name: Name of the form field to render
-            * errors: `ErrorList` instance with errors of the field
-            * required: Boolean flag to signal if the field is required or not
-            * label: The label text of the field
-            * label_css_class: The optional label css class, might be `None`
-            * help_text: Optional help text for the form field. Might be `None`
-            * container_css_class: The css class for the field container.
-            * widget_class_name: Lowercased version of the widget class name (e.g. 'textinput')
-            * widget_input_type:
-                `input_type` property of the widget instance,
-                falls back to `widget_class_name` if not available.
+
+        * form: `Form` instance
+        * field: `BoundField` instance of the field
+        * field_id: Field ID to use in `<label for="..">`
+        * field_name: Name of the form field to render
+        * errors: `ErrorList` instance with errors of the field
+        * required: Boolean flag to signal if the field is required or not
+        * label: The label text of the field
+        * label_css_class: The optional label css class, might be `None`
+        * help_text: Optional help text for the form field. Might be `None`
+        * container_css_class: The css class for the field container.
+        * widget_class_name: Lowercased version of the widget class name (e.g. 'textinput')
+        * widget_input_type: `input_type` property of the widget instance,
+          falls back to `widget_class_name` if not available.
 
         :return: Template context for field rendering.
         """
@@ -227,6 +195,22 @@ class TapeformMixin(TapeformLayoutMixin):
             'widget_input_type': getattr(widget, 'input_type', None) or widget_class_name
         }
 
+    def apply_widget_template(self, field_name):
+        """
+        Applies widget template overrides if available.
+
+        The method uses the `get_widget_template` method to determine if the widget
+        template should be exchanged. If a template is available, the template_name
+        property of the widget instance is updated.
+
+        :param field_name: A field name of the form.
+        """
+        field = self.fields[field_name]
+        template_name = self.get_widget_template(field_name, field)
+
+        if template_name:
+            field.widget.template_name = template_name
+
     def get_widget_template(self, field_name, field):
         """
         Returns the optional widget template to use when rendering the widget
@@ -253,6 +237,25 @@ class TapeformMixin(TapeformLayoutMixin):
             return template_name
 
         return None
+
+    def apply_widget_css_class(self, field_name):
+        """
+        Applies css classes to widgets if available.
+
+        The method uses the `get_widget_template` method to determine if the widget
+        template should be exchanged. If a template is available, the template_name
+        property of the widget instance is updated.
+
+        :param field_name: A field name of the form.
+        """
+        field = self.fields[field_name]
+        class_name = self.get_widget_css_class(field_name, field)
+
+        if class_name:
+            if 'class' in field.widget.attrs:
+                class_name = '{} {}'.format(
+                    field.widget.attrs['class'], class_name)
+            field.widget.attrs['class'] = class_name
 
     def get_widget_css_class(self, field_name, field):
         """

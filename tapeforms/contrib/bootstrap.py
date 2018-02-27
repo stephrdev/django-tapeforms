@@ -9,13 +9,17 @@ class BootstrapTapeformMixin(TapeformMixin):
     (using the template tags provided by `tapeforms`).
     """
 
+    #: Use a special field template for Bootstrap compatible forms.
     field_template = 'tapeforms/fields/bootstrap.html'
+    #: Bootstrap requires that the field has a css class "form-group" applied.
     field_container_css_class = 'form-group'
+    #: All widgets need a css class "form-control" (expect checkboxes).
     widget_css_class = 'form-control'
 
     def get_field_container_css_class(self, bound_field):
         """
-        Returns 'form-check' if widget is CheckboxInput.
+        Returns 'form-check' if widget is CheckboxInput. For all other fields,
+        return the default value from the form property ("form-group").
         """
         # If we render CheckboxInputs, Bootstrap requires a different
         # container class for checkboxes.
@@ -26,7 +30,8 @@ class BootstrapTapeformMixin(TapeformMixin):
 
     def get_field_label_css_class(self, bound_field):
         """
-        Returns 'form-check-label' if widget is CheckboxInput.
+        Returns 'form-check-label' if widget is CheckboxInput. For all other fields,
+        no css class is added.
         """
         # If we render CheckboxInputs, Bootstrap requires a different
         # field label css class for checkboxes.
@@ -37,7 +42,8 @@ class BootstrapTapeformMixin(TapeformMixin):
 
     def get_widget_css_class(self, field_name, field):
         """
-        Returns 'form-check-input' if widget is CheckboxInput.
+        Returns 'form-check-input' if widget is CheckboxInput. For all other fields
+        return the default value from the form property ("form-control").
         """
         # If we render CheckboxInputs, Bootstrap requires a different
         # widget css class for checkboxes.

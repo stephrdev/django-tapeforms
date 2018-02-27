@@ -4,4 +4,4 @@ Changelog
 0.0.1 - TBD
 -----------
 
-* TBD
+* Initial release of `django-tapeforms`

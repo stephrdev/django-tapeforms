@@ -7,7 +7,7 @@ django-tapeforms
 
 .. image:: https://codecov.io/gh/stephrdev/django-tapeforms/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/stephrdev/django-tapeforms
-   :alt:: Coverage Status
+   :alt: Coverage Status
 
 .. image:: https://readthedocs.org/projects/django-tapeforms/badge/?version=latest
    :target: https://django-tapeforms.readthedocs.io/en/stable/?badge=latest

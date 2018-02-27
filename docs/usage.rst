@@ -32,3 +32,8 @@ Together with some template code you get some beautiful rendered forms.
 By default, the form will be rendered using the ``tapeforms/layouts/default.html``.
 To learn how to override the template which is used, please refer to the
 :doc:`Advanced usage section <advanced_usage>`.
+
+.. note::
+
+    For a full overview of the methods you might override to customize the rendering
+    of your forms, go to the :doc:`API Reference for mixins <api_mixins>`.

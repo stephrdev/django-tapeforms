@@ -14,5 +14,5 @@ To start, simply install the latest stable package using the command
 In addition, you have to add ``'tapeforms'`` to the ``INSTALLED_APP`` setting
 in your ``settings.py``.
 
-Thats it, now continue to the `Usage section <usage>` to learn how to render your
+Thats it, now continue to the :doc:`Usage section <usage>` to learn how to render your
 forms to HTML.
