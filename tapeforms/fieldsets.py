@@ -34,7 +34,7 @@ class TapeformFieldset(TapeformLayoutMixin, object):
                       for rendering around (like a fieldset headline.
         :return: A configured fieldset instance.
         """
-        assert fields or exclude, 'Please provide fields or exclude argument.'
+        assert fields or exclude is not None, 'Please provide fields or exclude argument.'
 
         self.form = form
         self.render_fields = fields or ()
@@ -46,11 +46,12 @@ class TapeformFieldset(TapeformLayoutMixin, object):
             self.layout_template = template
 
     def __repr__(self):
-        return '<{cls} form={form}, primary={primary}, fields=({fields})>'.format(
+        return '<{cls} form={form}, primary={primary}, fields=({fields})/({exclude})>'.format(
             cls=self.__class__.__name__,
-            form=self.form,
+            form=repr(self.form),
             primary=self.primary_fieldset,
-            fields=';'.join(self.fields),
+            fields=';'.join(self.render_fields),
+            exclude=';'.join(self.exclude_fields),
         )
 
     def hidden_fields(self):
@@ -139,20 +140,19 @@ class TapeformFieldsetsMixin:
         will be the primary fieldset which is responsible for rendering the non field
         errors and hidden fields.
 
-        In Addition, the generator ensures that only valid arguments are passed to
-        the fieldset class.
-
         :param fieldsets: Alternative set of fieldset kwargs. If passed this set is
                           prevered of the ``fieldsets`` property of the form.
         :return: generator which yields fieldset instances.
         """
-        if not self.fieldsets:
-            return []
+        fieldsets = fieldsets or self.fieldsets
+
+        if not fieldsets:
+            raise StopIteration
 
         # Search for primary marker in at least one of the fieldset kwargs.
-        has_primary = any(fieldset.get('primary') for fieldset in self.fieldsets)
+        has_primary = any(fieldset.get('primary') for fieldset in fieldsets)
 
-        for fieldset_kwargs in self.fieldsets:
+        for fieldset_kwargs in fieldsets:
             fieldset_kwargs = copy.deepcopy(fieldset_kwargs)
             fieldset_kwargs['form'] = self
 
