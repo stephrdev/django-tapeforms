@@ -1,3 +1,5 @@
 include LICENSE.rst
 recursive-exclude .DS_Store
+recursive-exclude tests *
 recursive-include tapeforms/templates *
+recursive-exclude tapeforms/templates .DS_Store
