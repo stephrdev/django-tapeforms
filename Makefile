@@ -1,4 +1,6 @@
-.PHONY: clean tests cov docs runserver
+.PHONY: clean tests cov docs runserver release
+
+VERSION = $(shell python -c "print(__import__('tapeforms').__version__)")
 
 clean:
 	rm -fr docs/_build build/ dist/
@@ -17,3 +19,10 @@ docs:
 
 runserver:
 	pipenv run python examples/manage.py runserver
+
+release:
+	@echo About to release ${VERSION}; read
+	pipenv run python setup.py sdist upload
+	python setup.py bdist_wheel upload
+	git tag -a ${VERSION} -m \"Version ${VERSION}\" && git push --follow-tags
+
