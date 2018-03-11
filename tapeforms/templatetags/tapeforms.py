@@ -28,7 +28,7 @@ def form(context, form, **kwargs):
     :return: Rendered form (errors + hidden fields + fields) as HTML.
     """
 
-    if not isinstance(form, (forms.Form, TapeformFieldset)):
+    if not isinstance(form, (forms.BaseForm, TapeformFieldset)):
         raise template.TemplateSyntaxError(
             'Provided form should be a `Form` instance, actual type: {0}'.format(
                 form.__class__.__name__))
