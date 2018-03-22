@@ -22,7 +22,7 @@ class BootstrapTapeformMixin(TapeformMixin):
     widget_template_overrides = {
         forms.SelectDateWidget: 'tapeforms/widgets/bootstrap_multiwidget.html',
         forms.SplitDateTimeWidget: 'tapeforms/widgets/bootstrap_multiwidget.html',
-        forms.RadioSelect: 'tapeforms/widgets/bootstrap_multiple_input.html',
+        forms.RadioSelect: 'tapeforms/widgets/bootstrap_multipleinput.html',
         forms.CheckboxSelectMultiple: 'tapeforms/widgets/bootstrap_multipleinput.html'
     }
 
