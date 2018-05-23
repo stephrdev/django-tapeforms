@@ -1,3 +1,5 @@
+from unittest import mock
+
 from django import forms
 
 from tapeforms.mixins import TapeformMixin
@@ -36,6 +38,18 @@ class DateTimeDummyForm(TapeformMixin, forms.Form):
     date_field = forms.DateField(widget=forms.DateInput)
     time_field = forms.TimeField(widget=forms.TimeInput)
     split_dt_field = forms.DateTimeField(widget=forms.SplitDateTimeWidget)
+
+
+class TestRenderMethods:
+
+    @mock.patch('tapeforms.mixins.render_to_string')
+    def test_as_tapeform(self, render_mock):
+        render_mock.return_value = 'render-mock-called'
+        form = DummyForm()
+        assert form.as_tapeform() == 'render-mock-called'
+        assert render_mock.call_count == 1
+        assert render_mock.call_args[0][0] == 'tapeforms/layouts/default.html'
+        assert render_mock.call_args[0][1]['form'] == form
 
 
 class TestLayoutMethods:

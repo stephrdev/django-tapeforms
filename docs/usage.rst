@@ -33,6 +33,17 @@ By default, the form will be rendered using the ``tapeforms/layouts/default.html
 To learn how to override the template which is used, please refer to the
 :doc:`Advanced usage section <advanced_usage>`.
 
+If you don't want to override the template, you might also use the `as_tapeform` shortcut.
+
+.. code-block:: jinja
+
+    <form method="post" action=".">
+        {% csrf_token %}
+        {{ form.as_tapeform }}
+        <button type="submit">Submit</button>
+    </form>
+
+
 .. note::
 
     For a full overview of the methods you might override to customize the rendering

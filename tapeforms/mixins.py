@@ -1,4 +1,5 @@
 from django import forms
+from django.template.loader import render_to_string
 
 from . import defaults
 
@@ -55,6 +56,14 @@ class TapeformLayoutMixin:
             'hidden_fields': self.hidden_fields(),
             'visible_fields': self.visible_fields(),
         }
+
+    def as_tapeform(self):
+        """
+        Shortcut to render the form as a "tapeform" without including the tapeforms
+        templatetags. Behaves similar to `as_p` and `as_table`.
+        """
+        return render_to_string(
+            self.get_layout_template(), self.get_layout_context())
 
 
 class TapeformMixin(TapeformLayoutMixin):
