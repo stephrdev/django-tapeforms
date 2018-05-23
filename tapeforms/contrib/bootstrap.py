@@ -61,22 +61,3 @@ class BootstrapTapeformMixin(TapeformMixin):
             return 'form-check-input'
 
         return super().get_widget_css_class(field_name, field)
-
-    def apply_widget_template(self, field_name):
-        """
-        The bootstrap optimized TapeformMixin changes the input type of DateInput
-        and TimeInput to "date" / "time" to enable Browser date pickers.
-        """
-        super().apply_widget_template(field_name)
-
-        widget = self.fields[field_name].widget
-
-        if isinstance(widget, forms.DateInput):
-            widget.input_type = 'date'
-
-        if isinstance(widget, forms.TimeInput):
-            widget.input_type = 'time'
-
-        if isinstance(widget, forms.SplitDateTimeWidget):
-            widget.widgets[0].input_type = 'date'
-            widget.widgets[1].input_type = 'time'

@@ -32,6 +32,12 @@ class DummyFormWithProperties(DummyForm):
     widget_css_class = 'some-widget-cssclass'
 
 
+class DateTimeDummyForm(TapeformMixin, forms.Form):
+    date_field = forms.DateField(widget=forms.DateInput)
+    time_field = forms.TimeField(widget=forms.TimeInput)
+    split_dt_field = forms.DateTimeField(widget=forms.SplitDateTimeWidget)
+
+
 class TestLayoutMethods:
 
     def test_get_layout_template_argument(self):
@@ -158,6 +164,13 @@ class TestFieldMethods:
 
 
 class TestWidgetMethods:
+
+    def test_apply_widget_options_datetime(self):
+        form = DateTimeDummyForm()
+        assert form.fields['time_field'].widget.input_type == 'time'
+        assert form.fields['date_field'].widget.input_type == 'date'
+        assert form.fields['split_dt_field'].widget.widgets[0].input_type == 'date'
+        assert form.fields['split_dt_field'].widget.widgets[1].input_type == 'time'
 
     def test_get_widget_template_name_override(self):
         form = DummyFormWithProperties()

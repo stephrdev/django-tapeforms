@@ -1,3 +1,5 @@
+from django import forms
+
 from . import defaults
 
 
@@ -90,6 +92,7 @@ class TapeformMixin(TapeformLayoutMixin):
         super().__init__(*args, **kwargs)
 
         for field_name in self.fields:
+            self.apply_widget_options(field_name)
             self.apply_widget_template(field_name)
             self.apply_widget_css_class(field_name)
 
@@ -194,6 +197,24 @@ class TapeformMixin(TapeformLayoutMixin):
             'widget_class_name': widget_class_name,
             'widget_input_type': getattr(widget, 'input_type', None) or widget_class_name
         }
+
+    def apply_widget_options(self, field_name):
+        """
+        Apply additional widget options like changing the input type of DateInput
+        and TimeInput to "date" / "time" to enable Browser date pickers or other
+        attributes/properties.
+        """
+        widget = self.fields[field_name].widget
+
+        if isinstance(widget, forms.DateInput):
+            widget.input_type = 'date'
+
+        if isinstance(widget, forms.TimeInput):
+            widget.input_type = 'time'
+
+        if isinstance(widget, forms.SplitDateTimeWidget):
+            widget.widgets[0].input_type = 'date'
+            widget.widgets[1].input_type = 'time'
 
     def apply_widget_template(self, field_name):
         """
