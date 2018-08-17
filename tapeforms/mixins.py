@@ -1,5 +1,6 @@
 from django import forms
 from django.template.loader import render_to_string
+from django.utils.safestring import mark_safe
 
 from . import defaults
 
@@ -201,7 +202,7 @@ class TapeformMixin(TapeformLayoutMixin):
             'required': bound_field.field.required,
             'label': bound_field.label,
             'label_css_class': self.get_field_label_css_class(bound_field),
-            'help_text': bound_field.help_text or None,
+            'help_text': mark_safe(bound_field.help_text) if bound_field.help_text else None,
             'container_css_class': self.get_field_container_css_class(bound_field),
             'widget_class_name': widget_class_name,
             'widget_input_type': getattr(widget, 'input_type', None) or widget_class_name

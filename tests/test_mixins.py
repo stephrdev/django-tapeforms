@@ -1,6 +1,7 @@
 from unittest import mock
 
 from django import forms
+from django.utils.safestring import SafeText
 
 from tapeforms.mixins import TapeformMixin
 
@@ -9,7 +10,7 @@ class DummyForm(TapeformMixin, forms.Form):
     my_hidden = forms.CharField(widget=forms.HiddenInput)
     my_field1 = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'my-css'}))
-    my_field2 = forms.CharField()
+    my_field2 = forms.CharField(help_text='Foo bar<br />baz')
     my_field3 = forms.IntegerField(
         required=False, widget=forms.NumberInput(attrs={'id': 'field3-special'}))
 
@@ -175,6 +176,12 @@ class TestFieldMethods:
         form = DummyForm(auto_id=False)
         context = form.get_field_context(form['my_field1'])
         assert context['field_id'] == ''
+
+    def test_get_field_context_helptext_is_safe(self):
+        form = DummyForm()
+        context = form.get_field_context(form['my_field2'])
+        assert isinstance(context['help_text'], SafeText) is True
+        assert context['help_text'] == 'Foo bar<br />baz'
 
 
 class TestWidgetMethods:
