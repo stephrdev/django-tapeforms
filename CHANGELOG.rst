@@ -1,6 +1,17 @@
 Changelog
 =========
 
+0.1.0 - 2018-08-17
+------------------
+
+* Add ``as_tapeform`` method to Forms to render forms without the need to call
+  the ``form`` template tag
+* Add hook to update widget options ``apply_widget_options``
+* DateInput, TimeInput and SplitDateTimeWidget get a proper input type to
+  activate Browser's datepicker.
+* Fix invalid help text display if html tags are part of the help text
+
+
 0.0.4 - 2018-03-22
 ------------------
 
