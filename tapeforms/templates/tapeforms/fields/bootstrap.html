@@ -20,7 +20,7 @@
 
 {% block errors %}
 	{% for error in errors %}
-		<div class="text-danger small pt-1">{{ error }}</div>
+		<div class="invalid-feedback">{{ error }}</div>
 	{% endfor %}
 {% endblock %}
 
