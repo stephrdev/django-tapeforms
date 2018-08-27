@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.1.1 - 2018-08-27
+------------------
+
+* Fix styling of invalid inputs in Bootstrap forms by adding the correct css class
+
+
 0.1.0 - 2018-08-17
 ------------------
 
