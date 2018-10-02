@@ -1,0 +1,8 @@
+{% extends 'tapeforms/layouts/default.html' %}
+
+
+{% block errors %}
+	{% for error in errors %}
+		<div class="callout alert" role="alert">{{ error }}</div>
+	{% endfor %}
+{% endblock %}
