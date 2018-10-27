@@ -1,3 +1,5 @@
+from django import forms
+
 from ..mixins import TapeformMixin
 
 
@@ -16,6 +18,12 @@ class FoundationTapeformMixin(TapeformMixin):
     #: Add a special class to invalid field's widget.
     widget_invalid_css_class = 'is-invalid-input'
 
+    #: Widgets with multiple inputs require some extra care (don't use ul, etc.)
+    widget_template_overrides = {
+        forms.RadioSelect: 'tapeforms/widgets/foundation_multipleinput.html',
+        forms.CheckboxSelectMultiple: 'tapeforms/widgets/foundation_multipleinput.html'
+    }
+
     def get_field_label_css_class(self, bound_field):
         """
         Appends 'is-invalid-label' if field has errors.
@@ -30,6 +38,20 @@ class FoundationTapeformMixin(TapeformMixin):
                     class_name, self.field_label_invalid_css_class)
 
         return class_name
+
+    def get_field_template(self, bound_field, template_name=None):
+        """
+        Uses a special field template for widget with multiple inputs. It only
+        applies if no other template than the default one has been defined.
+        """
+        template_name = super().get_field_template(bound_field, template_name)
+
+        if (template_name == self.field_template and
+                bound_field.field.widget.__class__ in (
+                    forms.RadioSelect, forms.CheckboxSelectMultiple)):
+            return 'tapeforms/fields/foundation_fieldset.html'
+
+        return template_name
 
     def add_error(self, field_name, error):
         """

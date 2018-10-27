@@ -1,0 +1,8 @@
+{% for group, options, index in widget.optgroups %}
+	{% for option in options %}
+		<span class="form-widget-inputoption form-widget-inputoption-{{ option.type }}">
+			<input type="{{ option.type }}" name="{{ option.name }}"{% if option.value != None %} value="{{ option.value|stringformat:'s' }}"{% endif %}{% include "django/forms/widgets/attrs.html" with widget=option %}>
+			<label{% if option.attrs.id %} for="{{ option.attrs.id }}"{% endif %}>{{ option.label }}</label>
+		</span>
+	{% endfor %}
+{% endfor %}
