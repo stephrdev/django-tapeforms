@@ -87,6 +87,10 @@ class TapeformMixin(TapeformLayoutMixin):
     #: CSS class to append to the rendered field label tag. Optional.
     field_label_css_class = None
 
+    #: An additional CSS class to append to the rendered field label tag when
+    #: the field has errors. Optional.
+    field_label_invalid_css_class = None
+
     #: A dictionary of form-field names and/or widget classes to override
     #: the widget template which is used when rendering a certain form-field.
     #: Optional.
@@ -94,6 +98,10 @@ class TapeformMixin(TapeformLayoutMixin):
 
     #: CSS class to append to the widget attributes. Optional.
     widget_css_class = None
+
+    #: An additional CSS class to append to the widget attributes when the field
+    #: has errors. Optional.
+    widget_invalid_css_class = None
 
     def __init__(self, *args, **kwargs):
         """
@@ -105,6 +113,16 @@ class TapeformMixin(TapeformLayoutMixin):
             self.apply_widget_options(field_name)
             self.apply_widget_template(field_name)
             self.apply_widget_css_class(field_name)
+
+    def add_error(self, field_name, *args, **kwargs):
+        """
+        The method is overwritten to apply additional widget options when the
+        field has errors.
+        """
+        super().add_error(field_name, *args, **kwargs)
+
+        if field_name in self.fields:
+            self.apply_widget_invalid_options(field_name)
 
     def get_field_template(self, bound_field, template_name=None):
         """
@@ -155,12 +173,23 @@ class TapeformMixin(TapeformLayoutMixin):
         """
         Returns the optional label CSS class to use when rendering a field template.
 
-        By default, returns `None` which means "no CSS class".
+        By default, returns the Form class property `field_label_css_class`. If the
+        field has errors and the Form class property `field_label_invalid_css_class`
+        is defined, its value is appended to the CSS class.
 
         :param bound_field: `BoundField` instance to return CSS class for.
         :return: A CSS class string or `None`
         """
-        return self.field_label_css_class or None
+        class_name = self.field_label_css_class
+
+        if bound_field.errors and self.field_label_invalid_css_class:
+            if not class_name:
+                class_name = self.field_label_invalid_css_class
+            else:
+                class_name = '{} {}'.format(
+                    class_name, self.field_label_invalid_css_class)
+
+        return class_name or None
 
     def get_field_context(self, bound_field):
         """
@@ -300,3 +329,37 @@ class TapeformMixin(TapeformLayoutMixin):
         :return: A CSS class string or `None`
         """
         return self.widget_css_class or None
+
+    def apply_widget_invalid_options(self, field_name):
+        """
+        Applies additional widget options for an invalid field.
+
+        This method is called when there is some error on a field to apply
+        additional options on its widget, like adding a CSS class. For that,
+        it uses the `get_widget_invalid_css_class` method to determine if the
+        widget CSS class should be changed. If a CSS class is returned, it is
+        appended to the current value of the class property of the widget.
+
+        :param field_name: A field name of the form.
+        """
+        field = self.fields[field_name]
+        class_name = self.get_widget_invalid_css_class(field_name, field)
+
+        if class_name:
+            if 'class' in field.widget.attrs:
+                class_name = '{} {}'.format(
+                    field.widget.attrs['class'], class_name)
+            field.widget.attrs['class'] = class_name
+
+    def get_widget_invalid_css_class(self, field_name, field):
+        """
+        Returns the optional widget CSS class to append when rendering the
+        form's field widget in case of error.
+
+        By default, returns `None` which means "no CSS class / no change".
+
+        :param field_name: The field name of the corresponding field for the widget.
+        :param field: `Field` instance to return CSS class for.
+        :return: A CSS class string or `None`
+        """
+        return self.widget_invalid_css_class or None

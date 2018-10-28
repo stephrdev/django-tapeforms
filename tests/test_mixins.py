@@ -28,11 +28,13 @@ class DummyFormWithProperties(DummyForm):
     }
     field_container_css_class = 'form-row-custom'
     field_label_css_class = 'custom-label'
+    field_label_invalid_css_class = 'invalid-label'
     widget_template_overrides = {
         'my_field2': 'field2-widget.html',
         forms.NumberInput: 'integer-widget.html'
     }
     widget_css_class = 'some-widget-cssclass'
+    widget_invalid_css_class = 'invalid-widget'
 
 
 class DateTimeDummyForm(TapeformMixin, forms.Form):
@@ -131,6 +133,11 @@ class TestFieldMethods:
         assert form.get_field_label_css_class(
             form['my_field1']) == 'custom-label'
 
+    def test_get_field_label_css_class_invalid(self):
+        form = DummyFormWithProperties({})
+        assert form.get_field_label_css_class(
+            form['my_field1']) == 'custom-label invalid-label'
+
     def test_get_field_label_css_class_default(self):
         form = DummyForm()
         assert form.get_field_label_css_class(
@@ -217,3 +224,14 @@ class TestWidgetMethods:
         form = DummyForm()
         assert form.get_widget_css_class(
             'my_field1', form.fields['my_field1']) is None
+
+    def test_apply_widget_invalid_options_css_class(self):
+        form = DummyFormWithProperties({})
+        assert 'my_field1' in form.errors
+        assert form.fields['my_field1'].widget.attrs['class'] == (
+            'my-css some-widget-cssclass invalid-widget')
+
+    def test_apply_widget_invalid_options_default(self):
+        form = DummyForm({})
+        assert 'my_field1' in form.errors
+        assert form.fields['my_field1'].widget.attrs['class'] == 'my-css'
