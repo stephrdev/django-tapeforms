@@ -127,3 +127,18 @@ This is done using the properties ``field_container_css_class``,
 For all CSS class properties, there are methods to override the applied CSS class
 per field. Please refer to the :doc:`API Reference <api_mixins>` to learn what
 arguments are passed to the CSS class methods.
+
+
+Adding CSS classes to invalid field
+-----------------------------------
+
+When you render the form using `django-tapeforms`, you can also apply additional
+CSS classes to the label and widget of a field which has errors.
+
+This is done using the properties ``field_label_invalid_css_class`` and
+``widget_invalid_css_class``.
+
+If you need to set more attributes to the widget when there are errors, you can
+overwrite the :py:meth:`apply_widget_invalid_options
+<tapeforms.mixins.TapeformMixin.apply_widget_invalid_options()>` method. It
+receives the field name as ``str``.
