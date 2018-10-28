@@ -13,9 +13,9 @@ class FoundationTapeformMixin(TapeformMixin):
     layout_template = 'tapeforms/layouts/foundation.html'
     #: Use a special field template for Foundation compatible forms.
     field_template = 'tapeforms/fields/foundation.html'
-    #: Add a special class to invalid field's label.
+    #: Use a special class to invalid field's label.
     field_label_invalid_css_class = 'is-invalid-label'
-    #: Add a special class to invalid field's widget.
+    #: Use a special class to invalid field's widget.
     widget_invalid_css_class = 'is-invalid-input'
 
     #: Widgets with multiple inputs require some extra care (don't use ul, etc.)
@@ -23,21 +23,6 @@ class FoundationTapeformMixin(TapeformMixin):
         forms.RadioSelect: 'tapeforms/widgets/foundation_multipleinput.html',
         forms.CheckboxSelectMultiple: 'tapeforms/widgets/foundation_multipleinput.html'
     }
-
-    def get_field_label_css_class(self, bound_field):
-        """
-        Appends 'is-invalid-label' if field has errors.
-        """
-        class_name = super().get_field_label_css_class(bound_field)
-
-        if bound_field.errors:
-            if not class_name:
-                class_name = self.field_label_invalid_css_class
-            else:
-                class_name = '{} {}'.format(
-                    class_name, self.field_label_invalid_css_class)
-
-        return class_name
 
     def get_field_template(self, bound_field, template_name=None):
         """
@@ -53,18 +38,11 @@ class FoundationTapeformMixin(TapeformMixin):
 
         return template_name
 
-    def add_error(self, field_name, error):
+    def apply_widget_invalid_options(self, field_name):
         """
-        The method is overwritten to append 'is-invalid-input' to the css class
-        of the field's widget.
+        Set ARIA attribute to the form's field widget.
         """
-        super().add_error(field_name, error)
+        super().apply_widget_invalid_options(field_name)
 
-        if field_name in self.fields:
-            widget = self.fields[field_name].widget
-            widget.attrs['aria-invalid'] = 'true'
-
-            class_names = widget.attrs.get('class', '').split(' ')
-            if self.widget_invalid_css_class not in class_names:
-                class_names.append(self.widget_invalid_css_class)
-                widget.attrs['class'] = ' '.join(class_names)
+        widget = self.fields[field_name].widget
+        widget.attrs['aria-invalid'] = 'true'
