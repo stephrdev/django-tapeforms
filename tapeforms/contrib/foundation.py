@@ -47,8 +47,8 @@ class FoundationTapeformMixin(TapeformMixin):
         template_name = super().get_field_template(bound_field, template_name)
 
         if (template_name == self.field_template and
-                bound_field.field.widget.__class__ in (
-                    forms.RadioSelect, forms.CheckboxSelectMultiple)):
+                isinstance(bound_field.field.widget, (
+                    forms.RadioSelect, forms.CheckboxSelectMultiple))):
             return 'tapeforms/fields/foundation_fieldset.html'
 
         return template_name
