@@ -45,5 +45,4 @@ class TestFoundationTapeformMixin:
         form = DummyForm({})
         widget = form.fields['my_field1'].widget
         assert 'my_field1' in form.errors
-        assert widget.attrs['aria-invalid'] == 'true'
         assert widget.attrs['class'].strip() == 'is-invalid-input'

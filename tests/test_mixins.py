@@ -234,4 +234,6 @@ class TestWidgetMethods:
     def test_apply_widget_invalid_options_default(self):
         form = DummyForm({})
         assert 'my_field1' in form.errors
-        assert form.fields['my_field1'].widget.attrs['class'] == 'my-css'
+        widget = form.fields['my_field1'].widget
+        assert widget.attrs['aria-invalid'] == 'true'
+        assert widget.attrs['class'] == 'my-css'

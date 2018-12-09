@@ -37,12 +37,3 @@ class FoundationTapeformMixin(TapeformMixin):
             return 'tapeforms/fields/foundation_fieldset.html'
 
         return template_name
-
-    def apply_widget_invalid_options(self, field_name):
-        """
-        Set ARIA attribute to the form's field widget.
-        """
-        super().apply_widget_invalid_options(field_name)
-
-        widget = self.fields[field_name].widget
-        widget.attrs['aria-invalid'] = 'true'

@@ -335,10 +335,12 @@ class TapeformMixin(TapeformLayoutMixin):
         Applies additional widget options for an invalid field.
 
         This method is called when there is some error on a field to apply
-        additional options on its widget, like adding a CSS class. For that,
-        it uses the `get_widget_invalid_css_class` method to determine if the
-        widget CSS class should be changed. If a CSS class is returned, it is
-        appended to the current value of the class property of the widget.
+        additional options on its widget. It does the following:
+
+        * Sets the aria-invalid property of the widget for accessibility.
+        * Adds an invalid CSS class, which is determined by the returned value
+          of `get_widget_invalid_css_class` method. If a CSS class is returned,
+          it is appended to the current value of the class property of the widget.
 
         :param field_name: A field name of the form.
         """
@@ -350,6 +352,8 @@ class TapeformMixin(TapeformLayoutMixin):
                 class_name = '{} {}'.format(
                     field.widget.attrs['class'], class_name)
             field.widget.attrs['class'] = class_name
+
+        field.widget.attrs['aria-invalid'] = 'true'
 
     def get_widget_invalid_css_class(self, field_name, field):
         """
