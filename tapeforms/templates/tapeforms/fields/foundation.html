@@ -1,0 +1,25 @@
+{% extends 'tapeforms/fields/default.html' %}
+
+
+{% block label %}
+	{% if widget_class_name != 'checkboxinput' %}
+		{# If rendering a checkbox, Foundation requires us to swap ordering of label and input. #}
+		{{ block.super }}
+	{% endif %}
+{% endblock %}
+
+
+{% block widget %}
+    {{ block.super }}
+	{% if widget_class_name == 'checkboxinput' %}
+		{# See label block, we need to render label after input if widget input type is checkbox. #}
+		{% include 'tapeforms/includes/label_tag.html' %}
+	{% endif %}
+{% endblock %}
+
+
+{% block errors %}
+	{% for error in errors %}
+		<span class="form-error is-visible">{{ error }}</span>
+	{% endfor %}
+{% endblock %}

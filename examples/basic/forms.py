@@ -2,6 +2,7 @@ from django import forms
 
 from tapeforms.mixins import TapeformMixin
 from tapeforms.contrib.bootstrap import BootstrapTapeformMixin
+from tapeforms.contrib.foundation import FoundationTapeformMixin
 
 
 class SimpleForm(TapeformMixin, forms.Form):
@@ -33,6 +34,17 @@ class SimpleBootstrapForm(BootstrapTapeformMixin, forms.Form):
     first_name = forms.CharField(label='First name')
     last_name = forms.CharField(label='Last name', help_text='Some hints')
     confirm = forms.BooleanField(label='Please confirm')
+
+
+class SimpleFoundationForm(FoundationTapeformMixin, forms.Form):
+    first_name = forms.CharField(label='First name')
+    last_name = forms.CharField(label='Last name', help_text='Some hints')
+    confirm = forms.BooleanField(label='Please confirm')
+    choose_options = forms.MultipleChoiceField(label='Please choose', choices=(
+        ('foo', 'foo'),
+        ('bar', 'bar'),
+        ('baz', 'bar')
+    ), widget=forms.RadioSelect)
 
 
 class SimpleMultiWidgetForm(TapeformMixin, forms.Form):
