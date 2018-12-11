@@ -135,8 +135,8 @@ class TestFieldMethods:
 
     def test_get_field_label_css_class_invalid(self):
         form = DummyFormWithProperties({})
-        assert form.get_field_label_css_class(
-            form['my_field1']) == 'custom-label invalid-label'
+        assert sorted(form.get_field_label_css_class(
+            form['my_field1']).split(' ')) == ['custom-label', 'invalid-label']
 
     def test_get_field_label_css_class_default(self):
         form = DummyForm()
@@ -228,8 +228,9 @@ class TestWidgetMethods:
     def test_apply_widget_invalid_options_css_class(self):
         form = DummyFormWithProperties({})
         assert 'my_field1' in form.errors
-        assert form.fields['my_field1'].widget.attrs['class'] == (
-            'my-css some-widget-cssclass invalid-widget')
+        widget = form.fields['my_field1'].widget
+        assert sorted(widget.attrs['class'].split(' ')) == [
+            'invalid-widget', 'my-css', 'some-widget-cssclass']
 
     def test_apply_widget_invalid_options_default(self):
         form = DummyForm({})

@@ -3,6 +3,7 @@ from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 
 from . import defaults
+from .utils import join_css_class
 
 
 class TapeformLayoutMixin:
@@ -183,11 +184,8 @@ class TapeformMixin(TapeformLayoutMixin):
         class_name = self.field_label_css_class
 
         if bound_field.errors and self.field_label_invalid_css_class:
-            if not class_name:
-                class_name = self.field_label_invalid_css_class
-            else:
-                class_name = '{} {}'.format(
-                    class_name, self.field_label_invalid_css_class)
+            class_name = join_css_class(
+                class_name, self.field_label_invalid_css_class)
 
         return class_name or None
 
@@ -312,10 +310,8 @@ class TapeformMixin(TapeformLayoutMixin):
         class_name = self.get_widget_css_class(field_name, field)
 
         if class_name:
-            if 'class' in field.widget.attrs:
-                class_name = '{} {}'.format(
-                    field.widget.attrs['class'], class_name)
-            field.widget.attrs['class'] = class_name
+            field.widget.attrs['class'] = join_css_class(
+                field.widget.attrs.get('class', None), class_name)
 
     def get_widget_css_class(self, field_name, field):
         """
@@ -348,10 +344,8 @@ class TapeformMixin(TapeformLayoutMixin):
         class_name = self.get_widget_invalid_css_class(field_name, field)
 
         if class_name:
-            if 'class' in field.widget.attrs:
-                class_name = '{} {}'.format(
-                    field.widget.attrs['class'], class_name)
-            field.widget.attrs['class'] = class_name
+            field.widget.attrs['class'] = join_css_class(
+                field.widget.attrs.get('class', None), class_name)
 
         field.widget.attrs['aria-invalid'] = 'true'
 

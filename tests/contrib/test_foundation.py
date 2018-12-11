@@ -43,6 +43,6 @@ class TestFoundationTapeformMixin:
 
     def test_apply_widget_invalid_options(self):
         form = DummyForm({})
-        widget = form.fields['my_field1'].widget
         assert 'my_field1' in form.errors
-        assert widget.attrs['class'].strip() == 'is-invalid-input'
+        widget = form.fields['my_field1'].widget
+        assert widget.attrs['class'] == 'is-invalid-input'

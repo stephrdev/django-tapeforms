@@ -46,6 +46,7 @@ class TestBootstrapTapeformMixin:
 
     def test_apply_widget_invalid_options(self):
         form = DummyForm({})
-        widget = form.fields['my_field1'].widget
         assert 'my_field1' in form.errors
-        assert widget.attrs['class'].strip() == 'form-control is-invalid'
+        widget = form.fields['my_field1'].widget
+        assert sorted(widget.attrs['class'].split(' ')) == [
+                'form-control', 'is-invalid']
