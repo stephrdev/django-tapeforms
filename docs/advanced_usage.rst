@@ -33,8 +33,8 @@ You are done. The ``form`` :doc:`template tag <api_templatetags>` will pick the 
 defined template for rendering.
 
 If you need to select the layout template on other things like the instance
-in ``ModelForm``, you can overwrite the ``get_layout_template`` method (which
-is defined in the ``TapeformMixin``).
+in ``ModelForm``, you can overwrite the :py:meth:`get_layout_template
+<tapeforms.mixins.TapeformLayoutMixin.get_layout_template()>` method.
 
 
 Overriding field templates
@@ -79,16 +79,16 @@ As you can see, you can override the templates for fields based on the `field na
 and also based on the `field class`.
 
 If you need to select the field template depending on other things, you can
-overwrite the ``get_field_template`` method (which is defined in the
-``TapeformMixin``). The method receives a ``BoundField`` instance for the template
-selection.
+overwrite the :py:meth:`get_field_template
+<tapeforms.mixins.TapeformMixin.get_field_template()>` method. It receives a
+``BoundField`` instance for the template selection.
 
 
 Overriding widget templates
 ---------------------------
 
 In the context of `django-tapeforms` and `Django` itself, the widget template is
-used for the the actual input element.
+used for the actual input element.
 
 If you want to override the template used for rendering widgets, you can change
 the ``template_name`` by subclassing the widget classes but this requires much effort.
@@ -110,19 +110,35 @@ To make this easier, the `TapeformMixin` provided a helper to set the widget
 
 
 If you need to select the widget template based on other things, you can overwrite
-the ``get_widget_template`` method (which is defined in the ``TapeformMixin``). The
-method receives the field name as ``str`` and the ``Field`` instance.
+the :py:meth:`get_widget_template
+<tapeforms.mixins.TapeformMixin.get_widget_template()>` method. It receives the
+field name as ``str`` and the ``Field`` instance.
 
 
-Changing the applied css classes
+Changing the applied CSS classes
 --------------------------------
 
-When you render the form using `django-tapeforms` you can apply css classes to
-the field, label and widget.
+When you render the form using `django-tapeforms` you can apply CSS classes to
+the field container, label and widget.
 
-This is done using the properties ``field_container_css_class``, ``label_css_class``
-and ``widget_css_class``.
+This is done using the properties ``field_container_css_class``,
+``field_label_css_class`` and ``widget_css_class``.
 
-For all css class properties, there are methods to override the applied css class
+For all CSS class properties, there are methods to override the applied CSS class
 per field. Please refer to the :doc:`API Reference <api_mixins>` to learn what
-arguments are passed to the css class methods.
+arguments are passed to the CSS class methods.
+
+
+Adding CSS classes to invalid field
+-----------------------------------
+
+When you render the form using `django-tapeforms`, you can also apply additional
+CSS classes to the label and widget of a field which has errors.
+
+This is done using the properties ``field_label_invalid_css_class`` and
+``widget_invalid_css_class``.
+
+If you need to set more attributes to the widget when there are errors, you can
+overwrite the :py:meth:`apply_widget_invalid_options
+<tapeforms.mixins.TapeformMixin.apply_widget_invalid_options()>` method. It
+receives the field name as ``str``.

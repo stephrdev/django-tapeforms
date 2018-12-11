@@ -17,6 +17,8 @@ class BootstrapTapeformMixin(TapeformMixin):
     field_container_css_class = 'form-group'
     #: All widgets need a css class "form-control" (expect checkboxes).
     widget_css_class = 'form-control'
+    #: Use a special class to invalid field's widget.
+    widget_invalid_css_class = 'is-invalid'
 
     #: Widgets with multiple inputs require some extra care (don't use ul, etc.)
     widget_template_overrides = {
@@ -61,18 +63,3 @@ class BootstrapTapeformMixin(TapeformMixin):
             return 'form-check-input'
 
         return super().get_widget_css_class(field_name, field)
-
-    def add_error(self, field_name, error):
-        """
-        The method is overwritten to append 'is-invalid' to the css class of the
-        field's widget.
-        """
-        super().add_error(field_name, error)
-
-        if field_name in self.fields:
-            field = self.fields[field_name]
-            class_names = field.widget.attrs.get('class', '').split(' ')
-
-            if 'is-invalid' not in class_names:
-                class_names.append('is-invalid')
-                field.widget.attrs['class'] = ' '.join(class_names)

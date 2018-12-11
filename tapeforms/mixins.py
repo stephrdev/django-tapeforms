@@ -3,6 +3,7 @@ from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 
 from . import defaults
+from .utils import join_css_class
 
 
 class TapeformLayoutMixin:
@@ -84,20 +85,28 @@ class TapeformMixin(TapeformLayoutMixin):
     #: The CSS class to apply to the form-field container element.
     field_container_css_class = 'form-field'
 
-    #: Optional CSS class to append to the rendered field label tag.
+    #: CSS class to append to the rendered field label tag. Optional.
     field_label_css_class = None
+
+    #: An additional CSS class to append to the rendered field label tag when
+    #: the field has errors. Optional.
+    field_label_invalid_css_class = None
 
     #: A dictionary of form-field names and/or widget classes to override
     #: the widget template which is used when rendering a certain form-field.
     #: Optional.
     widget_template_overrides = None
 
-    #: Optiona CSS lass to append to the widget attributes. Optional.
+    #: CSS class to append to the widget attributes. Optional.
     widget_css_class = None
+
+    #: An additional CSS class to append to the widget attributes when the field
+    #: has errors. Optional.
+    widget_invalid_css_class = None
 
     def __init__(self, *args, **kwargs):
         """
-        The init method is overwritten to apply widget templates and css classes.
+        The init method is overwritten to apply widget templates and CSS classes.
         """
         super().__init__(*args, **kwargs)
 
@@ -106,6 +115,16 @@ class TapeformMixin(TapeformLayoutMixin):
             self.apply_widget_template(field_name)
             self.apply_widget_css_class(field_name)
 
+    def add_error(self, field_name, *args, **kwargs):
+        """
+        The method is overwritten to apply additional widget options when the
+        field has errors.
+        """
+        super().add_error(field_name, *args, **kwargs)
+
+        if field_name in self.fields:
+            self.apply_widget_invalid_options(field_name)
+
     def get_field_template(self, bound_field, template_name=None):
         """
         Returns the field template to use when rendering a form field to HTML.
@@ -113,8 +132,8 @@ class TapeformMixin(TapeformLayoutMixin):
         Preference of template selection:
 
         1. Provided method argument `template_name`
-        2. Templete from `field_template_overrides` selected by field name
-        3. Templete from `field_template_overrides` selected by field class
+        2. Template from `field_template_overrides` selected by field name
+        3. Template from `field_template_overrides` selected by field class
         4. Form class property `field_template`
         5. Globally defined default template from `defaults.LAYOUT_FIELD_TEMPLATE`
 
@@ -142,25 +161,33 @@ class TapeformMixin(TapeformLayoutMixin):
 
     def get_field_container_css_class(self, bound_field):
         """
-        Returns the container css class to use when rendering a field template.
+        Returns the container CSS class to use when rendering a field template.
 
         By default, returns the Form class property `field_container_css_class`.
 
-        :param bound_field: `BoundField` instance to return css class for.
-        :return: A css class string.
+        :param bound_field: `BoundField` instance to return CSS class for.
+        :return: A CSS class string.
         """
         return self.field_container_css_class or None
 
     def get_field_label_css_class(self, bound_field):
         """
-        Returns the optional label css class to use when rendering a field template.
+        Returns the optional label CSS class to use when rendering a field template.
 
-        By default, returns `None` which means "no css class".
+        By default, returns the Form class property `field_label_css_class`. If the
+        field has errors and the Form class property `field_label_invalid_css_class`
+        is defined, its value is appended to the CSS class.
 
-        :param bound_field: `BoundField` instance to return css class for.
-        :return: A css class string or `None`
+        :param bound_field: `BoundField` instance to return CSS class for.
+        :return: A CSS class string or `None`
         """
-        return self.field_label_css_class or None
+        class_name = self.field_label_css_class
+
+        if bound_field.errors and self.field_label_invalid_css_class:
+            class_name = join_css_class(
+                class_name, self.field_label_invalid_css_class)
+
+        return class_name or None
 
     def get_field_context(self, bound_field):
         """
@@ -175,9 +202,9 @@ class TapeformMixin(TapeformLayoutMixin):
         * errors: `ErrorList` instance with errors of the field
         * required: Boolean flag to signal if the field is required or not
         * label: The label text of the field
-        * label_css_class: The optional label css class, might be `None`
+        * label_css_class: The optional label CSS class, might be `None`
         * help_text: Optional help text for the form field. Might be `None`
-        * container_css_class: The css class for the field container.
+        * container_css_class: The CSS class for the field container.
         * widget_class_name: Lowercased version of the widget class name (e.g. 'textinput')
         * widget_input_type: `input_type` property of the widget instance,
           falls back to `widget_class_name` if not available.
@@ -210,7 +237,7 @@ class TapeformMixin(TapeformLayoutMixin):
 
     def apply_widget_options(self, field_name):
         """
-        Apply additional widget options like changing the input type of DateInput
+        Applies additional widget options like changing the input type of DateInput
         and TimeInput to "date" / "time" to enable Browser date pickers or other
         attributes/properties.
         """
@@ -248,8 +275,8 @@ class TapeformMixin(TapeformLayoutMixin):
         for a form field.
 
         Preference of template selection:
-            1. Templete from `widget_template_overrides` selected by field name
-            2. Templete from `widget_template_overrides` selected by widget class
+            1. Template from `widget_template_overrides` selected by field name
+            2. Template from `widget_template_overrides` selected by widget class
 
         By default, returns `None` which means "use Django's default widget template".
 
@@ -271,11 +298,11 @@ class TapeformMixin(TapeformLayoutMixin):
 
     def apply_widget_css_class(self, field_name):
         """
-        Applies css classes to widgets if available.
+        Applies CSS classes to widgets if available.
 
-        The method uses the `get_widget_template` method to determine if the widget
-        template should be exchanged. If a template is available, the template_name
-        property of the widget instance is updated.
+        The method uses the `get_widget_css_class` method to determine if the widget
+        CSS class should be changed. If a CSS class is returned, it is appended to
+        the current value of the class property of the widget instance.
 
         :param field_name: A field name of the form.
         """
@@ -283,20 +310,54 @@ class TapeformMixin(TapeformLayoutMixin):
         class_name = self.get_widget_css_class(field_name, field)
 
         if class_name:
-            if 'class' in field.widget.attrs:
-                class_name = '{} {}'.format(
-                    field.widget.attrs['class'], class_name)
-            field.widget.attrs['class'] = class_name
+            field.widget.attrs['class'] = join_css_class(
+                field.widget.attrs.get('class', None), class_name)
 
     def get_widget_css_class(self, field_name, field):
         """
-        Returns the optional widget css class to use when rendering the
+        Returns the optional widget CSS class to use when rendering the
         form's field widget.
 
-        By default, returns `None` which means "no css class / no change".
+        By default, returns `None` which means "no CSS class / no change".
 
         :param field_name: The field name of the corresponding field for the widget.
-        :param field: `Field` instance to return css class for.
-        :return: A css class string or `None`
+        :param field: `Field` instance to return CSS class for.
+        :return: A CSS class string or `None`
         """
         return self.widget_css_class or None
+
+    def apply_widget_invalid_options(self, field_name):
+        """
+        Applies additional widget options for an invalid field.
+
+        This method is called when there is some error on a field to apply
+        additional options on its widget. It does the following:
+
+        * Sets the aria-invalid property of the widget for accessibility.
+        * Adds an invalid CSS class, which is determined by the returned value
+          of `get_widget_invalid_css_class` method. If a CSS class is returned,
+          it is appended to the current value of the class property of the widget.
+
+        :param field_name: A field name of the form.
+        """
+        field = self.fields[field_name]
+        class_name = self.get_widget_invalid_css_class(field_name, field)
+
+        if class_name:
+            field.widget.attrs['class'] = join_css_class(
+                field.widget.attrs.get('class', None), class_name)
+
+        field.widget.attrs['aria-invalid'] = 'true'
+
+    def get_widget_invalid_css_class(self, field_name, field):
+        """
+        Returns the optional widget CSS class to append when rendering the
+        form's field widget in case of error.
+
+        By default, returns `None` which means "no CSS class / no change".
+
+        :param field_name: The field name of the corresponding field for the widget.
+        :param field: `Field` instance to return CSS class for.
+        :return: A CSS class string or `None`
+        """
+        return self.widget_invalid_css_class or None
