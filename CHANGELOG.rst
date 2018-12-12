@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.2.0 - 2018-12-12
+------------------
+
+* Add support for Foundation flavored forms
+* Improve support for applying css classes to invalid fields
+
+
 0.1.1 - 2018-08-27
 ------------------
 
