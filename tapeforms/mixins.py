@@ -3,7 +3,7 @@ from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 
 from . import defaults
-from .utils import join_css_class
+from .utils import is_safe, join_css_class
 
 
 class TapeformLayoutMixin:
@@ -229,6 +229,7 @@ class TapeformMixin(TapeformLayoutMixin):
             'required': bound_field.field.required,
             'label': bound_field.label,
             'label_css_class': self.get_field_label_css_class(bound_field),
+            'help_html': bound_field.help_text if is_safe(bound_field.help_text) else None,
             'help_text': mark_safe(bound_field.help_text) if bound_field.help_text else None,
             'container_css_class': self.get_field_container_css_class(bound_field),
             'widget_class_name': widget_class_name,

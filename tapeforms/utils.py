@@ -1,5 +1,14 @@
 from itertools import chain
 
+from django.utils.functional import Promise
+
+
+def is_safe(text):
+    """Checks whether the string is safe."""
+    if isinstance(text, Promise):
+        text = str(text)
+    return hasattr(text, '__html__')
+
 
 def join_css_class(css_class, *additional_css_classes):
     """
