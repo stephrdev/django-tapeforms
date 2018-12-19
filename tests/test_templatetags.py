@@ -73,6 +73,7 @@ class TestFormfieldTag:
             'field_id',
             'field_name',
             'form',
+            'help_html',
             'help_text',
             'label',
             'label_css_class',

@@ -1,7 +1,7 @@
 from unittest import mock
 
 from django import forms
-from django.utils.safestring import SafeText
+from django.utils.safestring import SafeText, mark_safe
 
 from tapeforms.mixins import TapeformMixin
 
@@ -12,7 +12,9 @@ class DummyForm(TapeformMixin, forms.Form):
         widget=forms.TextInput(attrs={'class': 'my-css'}))
     my_field2 = forms.CharField(help_text='Foo bar<br />baz')
     my_field3 = forms.IntegerField(
-        required=False, widget=forms.NumberInput(attrs={'id': 'field3-special'}))
+        required=False,
+        help_text=mark_safe('Foo bar<br />baz'),
+        widget=forms.NumberInput(attrs={'id': 'field3-special'}))
 
     def clean(self):
         if not self.cleaned_data.get('my_field3'):
@@ -153,6 +155,7 @@ class TestFieldMethods:
             'field_name': 'my_field1',
             'errors': [],
             'container_css_class': 'form-field',
+            'help_html': None,
             'help_text': None,
             'label': 'My field1',
             'label_css_class': None,
@@ -164,20 +167,7 @@ class TestFieldMethods:
     def test_get_field_context_custom_id(self):
         form = DummyForm()
         context = form.get_field_context(form['my_field3'])
-        assert context == {
-            'form': form,
-            'field': form['my_field3'],
-            'field_id': 'field3-special',
-            'field_name': 'my_field3',
-            'errors': [],
-            'container_css_class': 'form-field',
-            'help_text': None,
-            'label': 'My field3',
-            'label_css_class': None,
-            'required': False,
-            'widget_class_name': 'numberinput',
-            'widget_input_type': 'number'
-        }
+        assert context['field_id'] == 'field3-special'
 
     def test_get_field_context_no_auto_id(self):
         form = DummyForm(auto_id=False)
@@ -189,6 +179,13 @@ class TestFieldMethods:
         context = form.get_field_context(form['my_field2'])
         assert isinstance(context['help_text'], SafeText) is True
         assert context['help_text'] == 'Foo bar<br />baz'
+
+    def test_get_field_context_helptext_html(self):
+        form = DummyForm()
+        context = form.get_field_context(form['my_field2'])
+        assert context['help_html'] is None
+        context = form.get_field_context(form['my_field3'])
+        assert context['help_html'] == context['help_text']
 
 
 class TestWidgetMethods:

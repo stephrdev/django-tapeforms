@@ -1,4 +1,14 @@
-from tapeforms.utils import join_css_class
+from django.utils.functional import lazystr
+from django.utils.safestring import mark_safe
+
+from tapeforms.utils import is_safe, join_css_class
+
+
+def test_is_safe():
+    text = '<h1>title</h1>'
+    assert is_safe(text) is False
+    assert is_safe(mark_safe(text)) is True
+    assert is_safe(lazystr(mark_safe(text))) is True
 
 
 class TestJoinCssClass:
