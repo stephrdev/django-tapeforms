@@ -1,4 +1,5 @@
 from django import forms
+from django.core.exceptions import NON_FIELD_ERRORS
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 
@@ -115,15 +116,15 @@ class TapeformMixin(TapeformLayoutMixin):
             self.apply_widget_template(field_name)
             self.apply_widget_css_class(field_name)
 
-    def add_error(self, field_name, *args, **kwargs):
+    def full_clean(self, *args, **kwargs):
         """
-        The method is overwritten to apply additional widget options when the
-        field has errors.
+        The full_clean method is hijacked to apply special treatment to invalid
+        field inputs. For example adding extra options/classes to widgets.
         """
-        super().add_error(field_name, *args, **kwargs)
-
-        if field_name in self.fields:
-            self.apply_widget_invalid_options(field_name)
+        super().full_clean(*args, **kwargs)
+        for field in self.errors:
+            if field != NON_FIELD_ERRORS:
+                self.apply_widget_invalid_options(field)
 
     def get_field_template(self, bound_field, template_name=None):
         """

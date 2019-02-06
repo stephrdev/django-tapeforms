@@ -1,6 +1,8 @@
 from unittest import mock
 
 from django import forms
+from django.core.validators import MinValueValidator
+from django.db import models
 from django.utils.safestring import SafeText
 
 from tapeforms.mixins import TapeformMixin
@@ -41,6 +43,22 @@ class DateTimeDummyForm(TapeformMixin, forms.Form):
     date_field = forms.DateField(widget=forms.DateInput)
     time_field = forms.TimeField(widget=forms.TimeInput)
     split_dt_field = forms.DateTimeField(widget=forms.SplitDateTimeWidget)
+
+
+class DummyModel(models.Model):
+    my_validated_field = models.PositiveIntegerField(
+        blank=True, null=True, validators=[MinValueValidator(10)])
+
+    class Meta:
+        app_label = 'tapeforms'
+
+
+class DummyModelForm(TapeformMixin, forms.ModelForm):
+    widget_invalid_css_class = 'invalid-widget'
+
+    class Meta:
+        model = DummyModel
+        fields = '__all__'
 
 
 class TestRenderMethods:
@@ -238,3 +256,9 @@ class TestWidgetMethods:
         widget = form.fields['my_field1'].widget
         assert widget.attrs['aria-invalid'] == 'true'
         assert widget.attrs['class'] == 'my-css'
+
+    def test_apply_widget_invalid_options_model_validator(self):
+        form = DummyModelForm({'my_validated_field': 1})
+        assert 'my_validated_field' in form.errors
+        widget = form.fields['my_validated_field'].widget
+        assert widget.attrs['class'] == 'invalid-widget'
