@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.2.1 - 2019-02-06
+------------------
+
+* Change the way extra options are applied to invalid widgets
+
+
 0.2.0 - 2018-12-12
 ------------------
 
