@@ -54,12 +54,17 @@ class BootstrapTapeformMixin(TapeformMixin):
 
     def get_widget_css_class(self, field_name, field):
         """
-        Returns 'form-check-input' if widget is CheckboxInput. For all other fields
-        return the default value from the form property ("form-control").
+        Returns 'form-check-input' if widget is CheckboxInput or 'form-control-file'
+        if widget is FileInput. For all other fields return the default value
+        from the form property ("form-control").
         """
         # If we render CheckboxInputs, Bootstrap requires a different
         # widget css class for checkboxes.
         if isinstance(field.widget, forms.CheckboxInput):
             return 'form-check-input'
+
+        # Idem for fileinput.
+        if isinstance(field.widget, forms.FileInput):
+            return 'form-control-file'
 
         return super().get_widget_css_class(field_name, field)
