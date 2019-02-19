@@ -63,7 +63,7 @@ class BootstrapTapeformMixin(TapeformMixin):
         if isinstance(field.widget, forms.CheckboxInput):
             return 'form-check-input'
 
-        # Idem for fileinput.
+        # Idem for fileinput.
         if isinstance(field.widget, forms.FileInput):
             return 'form-control-file'
 
