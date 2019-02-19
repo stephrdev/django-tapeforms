@@ -6,6 +6,7 @@ from tapeforms.contrib.bootstrap import BootstrapTapeformMixin
 class DummyForm(BootstrapTapeformMixin, forms.Form):
     my_field1 = forms.CharField()
     my_field2 = forms.BooleanField()
+    my_field3 = forms.FileField()
 
 
 class TestBootstrapTapeformMixin:
@@ -43,6 +44,11 @@ class TestBootstrapTapeformMixin:
         form = DummyForm()
         assert form.get_widget_css_class(
             'my_field2', form.fields['my_field2']) == 'form-check-input'
+
+    def test_widget_css_class_fileinput(self):
+        form = DummyForm()
+        assert form.get_widget_css_class(
+            'my_field3', form.fields['my_field3']) == 'form-control-file'
 
     def test_apply_widget_invalid_options(self):
         form = DummyForm({})
