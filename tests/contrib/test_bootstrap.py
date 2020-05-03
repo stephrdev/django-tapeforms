@@ -2,57 +2,23 @@ from django import forms
 
 from tapeforms.contrib.bootstrap import BootstrapTapeformMixin
 
+from . import FormFieldsSnapshotTestMixin
+
 
 class DummyForm(BootstrapTapeformMixin, forms.Form):
-    my_field1 = forms.CharField()
-    my_field2 = forms.BooleanField()
-    my_field3 = forms.FileField()
+    text = forms.CharField()
+    checkbox = forms.BooleanField()
+    clearable_file = forms.FileField(required=False)
 
 
-class TestBootstrapTapeformMixin:
-
-    def test_field_template(self):
-        form = DummyForm()
-        assert form.field_template == 'tapeforms/fields/bootstrap.html'
-
-    def test_field_container_css_class_default(self):
-        form = DummyForm()
-        assert form.get_field_container_css_class(
-            form['my_field1']) == 'form-group'
-
-    def test_field_container_css_class_checkbox(self):
-        form = DummyForm()
-        assert form.get_field_container_css_class(
-            form['my_field2']) == 'form-check'
-
-    def test_field_label_css_class_default(self):
-        form = DummyForm()
-        assert form.get_field_label_css_class(
-            form['my_field1']) is None
-
-    def test_field_label_css_class_checkbox(self):
-        form = DummyForm()
-        assert form.get_field_label_css_class(
-            form['my_field2']) == 'form-check-label'
-
-    def test_widget_css_class_default(self):
-        form = DummyForm()
-        assert form.get_widget_css_class(
-            'my_field1', form.fields['my_field1']) == 'form-control'
-
-    def test_widget_css_class_checkbox(self):
-        form = DummyForm()
-        assert form.get_widget_css_class(
-            'my_field2', form.fields['my_field2']) == 'form-check-input'
-
-    def test_widget_css_class_fileinput(self):
-        form = DummyForm()
-        assert form.get_widget_css_class(
-            'my_field3', form.fields['my_field3']) == 'form-control-file'
+class TestBootstrapTapeformMixin(FormFieldsSnapshotTestMixin):
+    form_class = DummyForm
+    snapshot_dir = 'bootstrap'
 
     def test_apply_widget_invalid_options(self):
         form = DummyForm({})
-        assert 'my_field1' in form.errors
-        widget = form.fields['my_field1'].widget
+        assert 'text' in form.errors
+        widget = form.fields['text'].widget
         assert sorted(widget.attrs['class'].split(' ')) == [
-                'form-control', 'is-invalid']
+            'form-control', 'is-invalid'
+        ]
