@@ -1,0 +1,29 @@
+{% extends 'tapeforms/fields/default.html' %}
+
+{% block label %}
+	{% if widget_class_name != 'checkboxinput' %}
+		{{ block.super }}
+	{% endif %}
+{% endblock %}
+
+{% block widget %}
+	<div class="control">
+		{% if widget_class_name == 'checkboxinput' %}
+			{% include 'tapeforms/includes/label_tag.html' with pre_label=field %}
+		{% else %}
+			{{ field }}
+		{% endif %}
+	</div>
+{% endblock %}
+
+{% block errors %}
+	{% for error in errors %}
+		<div class="help is-danger">{{ error }}</div>
+	{% endfor %}
+{% endblock %}
+
+{% block help_text %}
+	{% if help_text %}
+		<div class="help">{{ help_text }}</div>
+	{% endif %}
+{% endblock %}
