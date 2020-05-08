@@ -18,6 +18,21 @@ requires that the ordering of label and widget inside a field is swapped (widget
 first, label second).
 
 
+Bulma mixin
+-----------
+
+You can use the :py:class:`tapeforms.contrib.bulma.BulmaTapeformMixin`
+to render forms with a Bulma_ compatible HTML layout / CSS classes.
+
+This alternative mixin makes sure that the rendered widgets, fields and labels
+have the correct CSS classes assigned especially in case of errors.
+
+In addition, the mixin overrides template for several widgets. It also adds
+JavaScript code to retrieve the selected file name of file inputs.
+
+.. _Bulma: https://bulma.io/
+
+
 Foundation mixin
 ----------------
 

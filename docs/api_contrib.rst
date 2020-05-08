@@ -9,6 +9,11 @@ Bootstrap mixin
     :undoc-members:
     :show-inheritance:
 
+.. automodule:: tapeforms.contrib.bulma
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Foundation mixin
 ----------------
 
