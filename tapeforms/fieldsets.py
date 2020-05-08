@@ -147,7 +147,7 @@ class TapeformFieldsetsMixin:
         fieldsets = fieldsets or self.fieldsets
 
         if not fieldsets:
-            raise StopIteration
+            return
 
         # Search for primary marker in at least one of the fieldset kwargs.
         has_primary = any(fieldset.get('primary') for fieldset in fieldsets)
