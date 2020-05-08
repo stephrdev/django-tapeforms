@@ -25,6 +25,9 @@ class BulmaTapeformMixin(TapeformMixin):
     widget_css_class = None
     widget_invalid_css_class = 'is-danger'
 
+    class Media:
+        js = ('tapeforms/js/bulma_fileinput.js',)
+
     def get_field_label_css_class(self, bound_field):
         if isinstance(bound_field.field.widget, widgets.CheckboxInput):
             return 'checkbox'

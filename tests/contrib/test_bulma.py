@@ -20,3 +20,7 @@ class DummyForm(BulmaTapeformMixin, forms.Form):
 class TestBulmaTapeformMixin(FormFieldsSnapshotTestMixin):
     form_class = DummyForm
     snapshot_dir = 'bulma'
+
+    def test_form_media(self):
+        form = DummyForm()
+        assert 'tapeforms/js/bulma_fileinput.js"' in str(form.media)
