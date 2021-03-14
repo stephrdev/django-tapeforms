@@ -15,7 +15,7 @@ class BootstrapTapeformMixin(TapeformMixin):
     field_template = 'tapeforms/fields/bootstrap.html'
     #: Bootstrap requires that the field has a css class "form-group" applied.
     field_container_css_class = 'form-group'
-    #: All widgets need a css class "form-control" (expect checkboxes).
+    #: All widgets need a css class "form-control" (except checkables and file inputs).
     widget_css_class = 'form-control'
     #: Use a special class to invalid field's widget.
     widget_invalid_css_class = 'is-invalid'
@@ -54,13 +54,17 @@ class BootstrapTapeformMixin(TapeformMixin):
 
     def get_widget_css_class(self, field_name, field):
         """
-        Returns 'form-check-input' if widget is CheckboxInput or 'form-control-file'
-        if widget is FileInput. For all other fields return the default value
-        from the form property ("form-control").
+        Returns 'form-check-input' if input widget is checkable, or
+        'form-control-file' if widget is FileInput. For all other fields
+        return the default value from the form property ("form-control").
         """
-        # If we render CheckboxInputs, Bootstrap requires a different
+        # If we render checkable input widget, Bootstrap requires a different
         # widget css class for checkboxes.
-        if isinstance(field.widget, forms.CheckboxInput):
+        if field.widget.__class__ in [
+            forms.RadioSelect,
+            forms.CheckboxSelectMultiple,
+            forms.CheckboxInput,
+        ]:
             return 'form-check-input'
 
         # Idem for fileinput.
