@@ -9,6 +9,11 @@ class DummyForm(BootstrapTapeformMixin, forms.Form):
     text = forms.CharField()
     checkbox = forms.BooleanField()
     clearable_file = forms.FileField(required=False)
+    radio_buttons = forms.MultipleChoiceField(choices=(
+        ('foo', 'foo'),
+        ('bar', 'bar'),
+        ('baz', 'bar')
+    ), widget=forms.RadioSelect)
 
 
 class TestBootstrapTapeformMixin(FormFieldsSnapshotTestMixin):
