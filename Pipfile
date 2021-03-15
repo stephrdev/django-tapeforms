@@ -5,8 +5,7 @@ name = "pypi"
 
 [dev-packages]
 pytest = ">=5.4"
-"pytest-pep8" = ">=1.0"
-pytest-flakes = ">=4.0"
+pytest-flake8 = ">=1.0"
 pytest-isort = ">=1.0"
 pytest-django = ">=3.9"
 pytest-snapshot = ">=0.4"
