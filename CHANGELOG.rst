@@ -1,11 +1,12 @@
 Changelog
 =========
 
-UNRELEASED
-----------
+1.0.0 - 2021-03-15
+------------------
 
 * Add support for Python 3.7 and 3.8
 * Remove support for Django 2.0 and 2.1
+* Fix duplicated class issue in bootstrap template
 
 
 0.2.1 - 2019-02-06
