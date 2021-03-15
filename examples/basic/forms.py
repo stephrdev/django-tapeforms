@@ -34,6 +34,11 @@ class SimpleBootstrapForm(BootstrapTapeformMixin, forms.Form):
     first_name = forms.CharField(label='First name')
     last_name = forms.CharField(label='Last name', help_text='Some hints')
     confirm = forms.BooleanField(label='Please confirm')
+    choose_options = forms.MultipleChoiceField(label='Please choose', choices=(
+        ('foo', 'foo'),
+        ('bar', 'bar'),
+        ('baz', 'bar')
+    ), widget=forms.RadioSelect)
 
 
 class SimpleFoundationForm(FoundationTapeformMixin, forms.Form):
