@@ -1,4 +1,5 @@
 .PHONY: clean correct docs pytests tests coverage-html
+.ONESHELL: release
 
 clean:
 	rm -fr build/ dist/ htmlcov/
@@ -19,3 +20,9 @@ tests:
 
 coverage-html: pytests
 	poetry run coverage html
+
+release:
+	@VERSION=`poetry run python -c "print(__import__('tapeforms').__version__)"`
+	@echo About to release $${VERSION}
+	@echo [ENTER] to continue; read
+	echo git tag -a "$${VERSION}" -m "Version $${VERSION}" && git push --follow-tags
