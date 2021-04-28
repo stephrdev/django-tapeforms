@@ -12,15 +12,13 @@ DATABASES = {
     }
 }
 
-INSTALLED_APPS = (
-    'tapeforms',
-)
+INSTALLED_APPS = ('tapeforms',)
 
-TEMPLATES = [{
-    'BACKEND': 'django.template.backends.django.DjangoTemplates',
-    'DIRS': [os.path.join(os.path.dirname(__file__), 'templates')],
-    'APP_DIRS': True,
-    'OPTIONS': {
-        'debug': True
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(os.path.dirname(__file__), 'templates')],
+        'APP_DIRS': True,
+        'OPTIONS': {'debug': True},
     }
-}]
+]

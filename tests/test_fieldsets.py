@@ -35,7 +35,6 @@ class DummyFormWithAdvancedFieldsets(TapeformFieldsetsMixin, DummyForm):
 
 
 class TestTapeformFieldset:
-
     def test_init(self):
         form = DummyForm()
         fieldset = TapeformFieldset(form, fields=('my_field1',))
@@ -45,8 +44,7 @@ class TestTapeformFieldset:
 
     def test_init_with_template(self):
         form = DummyForm()
-        fieldset = TapeformFieldset(
-            form, fields=('my_field1',), template='fieldset.html')
+        fieldset = TapeformFieldset(form, fields=('my_field1',), template='fieldset.html')
         assert fieldset.layout_template == 'fieldset.html'
 
     def test_init_missing_field_selection(self):
@@ -93,7 +91,8 @@ class TestTapeformFieldset:
     def test_visible_fields_with_fields_and_exclude(self):
         form = DummyForm()
         fieldset = TapeformFieldset(
-            form, fields=('my_field1', 'my_field2'), exclude=('my_field2',))
+            form, fields=('my_field1', 'my_field2'), exclude=('my_field2',)
+        )
         assert [f.name for f in fieldset.visible_fields()] == ['my_field1']
 
     def test_visible_fields_with_exclude(self):
@@ -103,7 +102,6 @@ class TestTapeformFieldset:
 
 
 class TestTapeformFieldsetsMixin:
-
     def test_get_fieldset_class(self):
         form = DummyFormWithFieldsets()
         assert form.get_fieldset_class() == TapeformFieldset

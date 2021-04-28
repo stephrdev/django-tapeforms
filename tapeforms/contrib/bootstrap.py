@@ -25,7 +25,7 @@ class BootstrapTapeformMixin(TapeformMixin):
         forms.SelectDateWidget: 'tapeforms/widgets/bootstrap_multiwidget.html',
         forms.SplitDateTimeWidget: 'tapeforms/widgets/bootstrap_multiwidget.html',
         forms.RadioSelect: 'tapeforms/widgets/bootstrap_multipleinput.html',
-        forms.CheckboxSelectMultiple: 'tapeforms/widgets/bootstrap_multipleinput.html'
+        forms.CheckboxSelectMultiple: 'tapeforms/widgets/bootstrap_multipleinput.html',
     }
 
     def get_field_container_css_class(self, bound_field):

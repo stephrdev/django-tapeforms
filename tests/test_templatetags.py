@@ -12,7 +12,6 @@ class DummyForm(TapeformMixin, forms.Form):
 
 
 class TestFormTag:
-
     @mock.patch('tapeforms.templatetags.tapeforms.render_to_string')
     def test_render(self, render_mock):
         render_mock.return_value = 'render-mock-called'
@@ -28,7 +27,7 @@ class TestFormTag:
             'errors',
             'form',
             'hidden_fields',
-            'visible_fields'
+            'visible_fields',
         ]
         assert render_mock.call_args[0][1]['form'] == form
 
@@ -50,11 +49,11 @@ class TestFormTag:
         with pytest.raises(TemplateSyntaxError) as exc:
             template.render(Context({'form': object()}))
         assert str(exc.value) == (
-            'Provided form should be a `Form` instance, actual type: object')
+            'Provided form should be a `Form` instance, actual type: object'
+        )
 
 
 class TestFormfieldTag:
-
     @mock.patch('tapeforms.templatetags.tapeforms.render_to_string')
     def test_render(self, render_mock):
         render_mock.return_value = 'render-mock-called'
@@ -78,7 +77,7 @@ class TestFormfieldTag:
             'label_css_class',
             'required',
             'widget_class_name',
-            'widget_input_type'
+            'widget_input_type',
         ]
         assert render_mock.call_args[0][1]['form'] == form
         assert render_mock.call_args[0][1]['field'] == form['my_field1']
@@ -90,7 +89,8 @@ class TestFormfieldTag:
         form = DummyForm()
 
         template = Template(
-            '{% load tapeforms %}{% formfield form.my_field1 using="foo.html" %}')
+            '{% load tapeforms %}{% formfield form.my_field1 using="foo.html" %}'
+        )
         assert template.render(Context({'form': form})) == 'render-using-mock-called'
 
         assert render_mock.call_count == 1
@@ -102,4 +102,5 @@ class TestFormfieldTag:
         with pytest.raises(TemplateSyntaxError) as exc:
             template.render(Context({'field': object()}))
         assert str(exc.value) == (
-            'Provided field should be a `BoundField` instance, actual type: object')
+            'Provided field should be a `BoundField` instance, actual type: object'
+        )

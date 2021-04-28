@@ -9,9 +9,5 @@ def pytest_generate_tests(metafunc):
             try:
                 fields = metafunc.cls.form_class.declared_fields.keys()
             except AttributeError:
-                raise ValueError(
-                    "%r must define a valid form_class property" % (
-                        metafunc.cls
-                    )
-                )
+                raise ValueError("%r must define a valid form_class property" % (metafunc.cls))
             metafunc.parametrize('field_name', fields)

@@ -31,7 +31,9 @@ def form(context, form, **kwargs):
     if not isinstance(form, (forms.BaseForm, TapeformFieldset)):
         raise template.TemplateSyntaxError(
             'Provided form should be a `Form` instance, actual type: {0}'.format(
-                form.__class__.__name__))
+                form.__class__.__name__
+            )
+        )
 
     return render_to_string(
         form.get_layout_template(kwargs.get('using', None)),
@@ -63,7 +65,9 @@ def formfield(context, bound_field, **kwargs):
     if not isinstance(bound_field, forms.BoundField):
         raise template.TemplateSyntaxError(
             'Provided field should be a `BoundField` instance, actual type: {0}'.format(
-                bound_field.__class__.__name__))
+                bound_field.__class__.__name__
+            )
+        )
 
     return render_to_string(
         bound_field.form.get_field_template(bound_field, kwargs.get('using', None)),

@@ -25,22 +25,23 @@ class TestFoundationTapeformMixin(FormFieldsSnapshotTestMixin):
 
     def test_field_template_fieldset(self):
         form = DummyForm()
-        assert form.get_field_template(
-            form['radios']
-        ) == 'tapeforms/fields/foundation_fieldset.html'
-        assert form.get_field_template(
-            form['radios'], 'field-template.html'
-        ) == 'field-template.html'
+        assert (
+            form.get_field_template(form['radios'])
+            == 'tapeforms/fields/foundation_fieldset.html'
+        )
+        assert (
+            form.get_field_template(form['radios'], 'field-template.html')
+            == 'field-template.html'
+        )
         form = DummyFormWithProperties()
-        assert form.get_field_template(
-            form['radios']
-        ) == 'tapeforms/fields/foundation_fieldset.html'
+        assert (
+            form.get_field_template(form['radios'])
+            == 'tapeforms/fields/foundation_fieldset.html'
+        )
 
     def test_apply_widget_invalid_options(self):
         form = DummyForm({})
         assert 'text' in form.errors
-        assert form.get_field_label_css_class(
-            form['text']
-        ) == 'is-invalid-label'
+        assert form.get_field_label_css_class(form['text']) == 'is-invalid-label'
         widget = form.fields['text'].widget
         assert widget.attrs['class'] == 'is-invalid-input'

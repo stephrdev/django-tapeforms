@@ -13,8 +13,7 @@ class TapeformFieldset(TapeformLayoutMixin, object):
     """
 
     def __init__(
-        self, form, fields=None, exclude=None, primary=False, template=None,
-        extra=None
+        self, form, fields=None, exclude=None, primary=False, template=None, extra=None
     ):
         """
         Initializes a fieldset instance to be used like a form in a template.

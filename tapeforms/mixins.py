@@ -65,8 +65,7 @@ class TapeformLayoutMixin:
         Shortcut to render the form as a "tapeform" without including the tapeforms
         templatetags. Behaves similar to `as_p` and `as_table`.
         """
-        return render_to_string(
-            self.get_layout_template(), self.get_layout_context())
+        return render_to_string(self.get_layout_template(), self.get_layout_context())
 
 
 class TapeformMixin(TapeformLayoutMixin):
@@ -185,8 +184,7 @@ class TapeformMixin(TapeformLayoutMixin):
         class_name = self.field_label_css_class
 
         if bound_field.errors and self.field_label_invalid_css_class:
-            class_name = join_css_class(
-                class_name, self.field_label_invalid_css_class)
+            class_name = join_css_class(class_name, self.field_label_invalid_css_class)
 
         return class_name or None
 
@@ -233,7 +231,7 @@ class TapeformMixin(TapeformLayoutMixin):
             'help_text': mark_safe(bound_field.help_text) if bound_field.help_text else None,
             'container_css_class': self.get_field_container_css_class(bound_field),
             'widget_class_name': widget_class_name,
-            'widget_input_type': getattr(widget, 'input_type', None) or widget_class_name
+            'widget_input_type': getattr(widget, 'input_type', None) or widget_class_name,
         }
 
     def apply_widget_options(self, field_name):
@@ -312,7 +310,8 @@ class TapeformMixin(TapeformLayoutMixin):
 
         if class_name:
             field.widget.attrs['class'] = join_css_class(
-                field.widget.attrs.get('class', None), class_name)
+                field.widget.attrs.get('class', None), class_name
+            )
 
     def get_widget_css_class(self, field_name, field):
         """
@@ -346,7 +345,8 @@ class TapeformMixin(TapeformLayoutMixin):
 
         if class_name:
             field.widget.attrs['class'] = join_css_class(
-                field.widget.attrs.get('class', None), class_name)
+                field.widget.attrs.get('class', None), class_name
+            )
 
         field.widget.attrs['aria-invalid'] = 'true'
 

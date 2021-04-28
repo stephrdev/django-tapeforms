@@ -2,7 +2,6 @@ from tapeforms.utils import join_css_class
 
 
 class TestJoinCssClass:
-
     def test_output(self):
         assert join_css_class('') == ''
         assert join_css_class('cls1') == 'cls1'
@@ -13,11 +12,12 @@ class TestJoinCssClass:
 
     def test_join_distincts(self):
         assert join_css_class('cls1', 'cls1') == 'cls1'
-        assert sorted(join_css_class('cls1', 'cls2', 'cls1').split(' ')) == [
-            'cls1', 'cls2']
+        assert sorted(join_css_class('cls1', 'cls2', 'cls1').split(' ')) == ['cls1', 'cls2']
 
     def test_join_multiple(self):
         assert sorted(join_css_class('cls1', 'cls2 cls3').split(' ')) == [
-            'cls1', 'cls2', 'cls3']
-        assert sorted(join_css_class('cls1', 'cls1 cls2').split(' ')) == [
-            'cls1', 'cls2']
+            'cls1',
+            'cls2',
+            'cls3',
+        ]
+        assert sorted(join_css_class('cls1', 'cls1 cls2').split(' ')) == ['cls1', 'cls2']

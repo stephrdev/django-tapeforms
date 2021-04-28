@@ -47,6 +47,4 @@ class FormFieldsSnapshotTestMixin:
             Context({'field': self.form_class()[field_name]})
         )
         snapshot.snapshot_dir = self.base_snapshot_dir / self.snapshot_dir
-        snapshot.assert_match(
-            prettify_html(parse_html(output)), 'field_%s.html' % (field_name)
-        )
+        snapshot.assert_match(prettify_html(parse_html(output)), 'field_%s.html' % (field_name))

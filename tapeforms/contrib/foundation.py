@@ -21,7 +21,7 @@ class FoundationTapeformMixin(TapeformMixin):
     #: Widgets with multiple inputs require some extra care (don't use ul, etc.)
     widget_template_overrides = {
         forms.RadioSelect: 'tapeforms/widgets/foundation_multipleinput.html',
-        forms.CheckboxSelectMultiple: 'tapeforms/widgets/foundation_multipleinput.html'
+        forms.CheckboxSelectMultiple: 'tapeforms/widgets/foundation_multipleinput.html',
     }
 
     def get_field_template(self, bound_field, template_name=None):
@@ -31,12 +31,8 @@ class FoundationTapeformMixin(TapeformMixin):
         """
         template_name = super().get_field_template(bound_field, template_name)
 
-        if (
-            template_name == self.field_template
-            and isinstance(
-                bound_field.field.widget,
-                (forms.RadioSelect, forms.CheckboxSelectMultiple)
-            )
+        if template_name == self.field_template and isinstance(
+            bound_field.field.widget, (forms.RadioSelect, forms.CheckboxSelectMultiple)
         ):
             return 'tapeforms/fields/foundation_fieldset.html'
 
