@@ -5,6 +5,10 @@ django-tapeforms
    :target: https://pypi.python.org/pypi/django-tapeforms
    :alt: Latest Version
 
+.. image:: https://github.com/stephrdev/django-tapeforms/workflows/Test/badge.svg?branch=master
+   :target: https://github.com/stephrdev/django-tapeforms/actions?workflow=Test
+   :alt: CI Status
+
 .. image:: https://codecov.io/gh/stephrdev/django-tapeforms/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/stephrdev/django-tapeforms
    :alt: Coverage Status
@@ -13,8 +17,6 @@ django-tapeforms
    :target: https://django-tapeforms.readthedocs.io/en/stable/?badge=latest
    :alt: Documentation Status
 
-.. image:: https://travis-ci.org/stephrdev/django-tapeforms.svg?branch=master
-   :target: https://travis-ci.org/stephrdev/django-tapeforms
 
 Usage
 -----
