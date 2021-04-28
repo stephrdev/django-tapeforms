@@ -5,8 +5,6 @@ import sys
 
 import os
 
-on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
-
 year = datetime.datetime.now().strftime("%Y")
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tests.settings")
@@ -87,7 +85,4 @@ inheritance_node_attrs = dict(shape='rect', fontsize=14, fillcolor='gray90',
 
 inheritance_edge_attrs = dict(penwidth=0.75)
 
-if on_rtd:
-    html_theme = 'default'
-else:
-    html_theme = 'sphinx_rtd_theme'
+html_theme = 'default'
