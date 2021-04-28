@@ -27,7 +27,7 @@ python = ">=3.6,<4"
 importlib-metadata = {version = "*", python = "<3.8"}
 
 Django = ">=2"
-Sphinx = ">=3.5"
+Sphinx = {version = ">=3.5", optional = true}
 
 [tool.poetry.dev-dependencies]
 pytest = ">=6.2"

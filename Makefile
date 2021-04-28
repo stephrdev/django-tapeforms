@@ -1,8 +1,8 @@
-.PHONY: clean correct docs pytests tests coverage-html
+.PHONY: clean correct docs pytests tests coverage-html release
 .ONESHELL: release
 
 clean:
-	rm -fr build/ dist/ htmlcov/
+	rm -fr build/ dist/ htmlcov/ __pycache__
 	poetry run make -C docs clean
 
 correct:
