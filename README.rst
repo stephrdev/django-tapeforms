@@ -2,7 +2,7 @@ django-tapeforms
 ================
 
 .. image:: https://img.shields.io/pypi/v/django-tapeforms.svg
-   :target: https://pypi.python.org/pypi/django-tapeforms
+   :target: https://pypi.org/project/django-tapeforms/
    :alt: Latest Version
 
 .. image:: https://github.com/stephrdev/django-tapeforms/workflows/Test/badge.svg?branch=master
