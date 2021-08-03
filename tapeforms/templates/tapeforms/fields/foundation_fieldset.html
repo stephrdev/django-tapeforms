@@ -1,4 +1,4 @@
-<fieldset class="{{ container_css_class }} {{ container_css_class }}-{{ field_name }} form-widget-{{ widget_class_name }}{% if required %} is-required{% endif %}{% if errors %} has-errors{% endif %}{% if field.css_classes %} {{ field.css_classes }}{% endif %}">
+<fieldset class="{{ container_css_class }} form-field-{{ field_name }} form-widget-{{ widget_class_name }}{% if required %} is-required{% endif %}{% if errors %} has-errors{% endif %}{% if field.css_classes %} {{ field.css_classes }}{% endif %}">
 	{% block label %}
 		<legend{% if label_css_class %} class="{{ label_css_class }}"{% endif %}>
 			{{ label }}{% if required %} <span class="required">*</span>{% endif %}
