@@ -1,7 +1,7 @@
 from django.views.generic import FormView
 
 from .forms import (
-    SimpleBootstrapForm, SimpleFoundationForm, SimpleMultiWidgetForm,
+    SimpleBootstrap4Form, SimpleFoundationForm, SimpleMultiWidgetForm,
     SimpleForm, SimpleWithOverridesForm)
 
 
@@ -15,9 +15,9 @@ class SimpleWithOverridesView(FormView):
     template_name = 'basic/simple_view.html'
 
 
-class SimpleBootstrapView(FormView):
-    form_class = SimpleBootstrapForm
-    template_name = 'basic/bootstrap_view.html'
+class SimpleBootstrap4View(FormView):
+    form_class = SimpleBootstrap4Form
+    template_name = 'basic/bootstrap4_view.html'
 
 
 class SimpleFoundationView(FormView):

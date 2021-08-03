@@ -1,11 +1,11 @@
 from django import forms
 
-from tapeforms.contrib.bootstrap import BootstrapTapeformMixin
+from tapeforms.contrib.bootstrap import Bootstrap4TapeformMixin, BootstrapTapeformMixin
 
 from . import FormFieldsSnapshotTestMixin
 
 
-class DummyForm(BootstrapTapeformMixin, forms.Form):
+class DummyForm(Bootstrap4TapeformMixin, forms.Form):
     text = forms.CharField()
     checkbox = forms.BooleanField()
     clearable_file = forms.FileField(required=False)
@@ -14,9 +14,13 @@ class DummyForm(BootstrapTapeformMixin, forms.Form):
     )
 
 
-class TestBootstrapTapeformMixin(FormFieldsSnapshotTestMixin):
+def test_compatibility_mixin():
+    assert BootstrapTapeformMixin == Bootstrap4TapeformMixin
+
+
+class TestBootstrap4TapeformMixin(FormFieldsSnapshotTestMixin):
     form_class = DummyForm
-    snapshot_dir = 'bootstrap'
+    snapshot_dir = 'bootstrap4'
 
     def test_apply_widget_invalid_options(self):
         form = DummyForm({})

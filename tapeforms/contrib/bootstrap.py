@@ -3,9 +3,9 @@ from django import forms
 from ..mixins import TapeformMixin
 
 
-class BootstrapTapeformMixin(TapeformMixin):
+class Bootstrap4TapeformMixin(TapeformMixin):
     """
-    Tapeform Mixin to render Bootstrap4 compatible forms.
+    Tapeform Mixin to render Bootstrap v4 compatible forms.
     (using the template tags provided by `tapeforms`).
     """
 
@@ -75,3 +75,9 @@ class BootstrapTapeformMixin(TapeformMixin):
             return 'form-control-file'
 
         return super().get_widget_css_class(field_name, field)
+
+
+#: This alias is for backward compatibility only. It will be deprecated and
+#: removed at some time, you should use :py:class:`Bootstrap4TapeformMixin`
+#: instead.
+BootstrapTapeformMixin = Bootstrap4TapeformMixin

@@ -7,8 +7,8 @@ Extra, optional, features of `django-tapeforms`.
 Bootstrap mixin
 ---------------
 
-You can use the :py:class:`tapeforms.contrib.bootstrap.BootstrapTapeformMixin`
-to render forms with a Bootstrap 4 compatible HTML layout / css classes.
+You can use the :py:class:`tapeforms.contrib.bootstrap.Bootstrap4TapeformMixin`
+to render forms with a Bootstrap v4 compatible HTML layout / css classes.
 
 This alternative mixin makes sure that the rendered widgets, fields and labels
 have the correct css classes assigned.
