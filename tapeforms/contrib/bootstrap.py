@@ -30,15 +30,18 @@ class BootstrapTapeformMixin(TapeformMixin):
 
     def get_field_container_css_class(self, bound_field):
         """
-        Returns 'form-check' if widget is CheckboxInput. For all other fields,
-        return the default value from the form property ("form-group").
+        Returns 'form-check' if widget is CheckboxInput in addition of the
+        default value from the form property ("form-group") - which is returned
+        for all other fields.
         """
-        # If we render CheckboxInputs, Bootstrap requires a different
+        class_name = super().get_field_container_css_class(bound_field)
+
+        # If we render CheckboxInputs, Bootstrap requires an additional
         # container class for checkboxes.
         if isinstance(bound_field.field.widget, forms.CheckboxInput):
-            return 'form-check'
+            class_name += ' form-check'
 
-        return super().get_field_container_css_class(bound_field)
+        return class_name
 
     def get_field_label_css_class(self, bound_field):
         """
