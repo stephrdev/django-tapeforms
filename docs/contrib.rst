@@ -8,7 +8,8 @@ Bootstrap mixin
 ---------------
 
 You can use the :py:class:`tapeforms.contrib.bootstrap.Bootstrap4TapeformMixin`
-to render forms with a Bootstrap v4 compatible HTML layout / css classes.
+to render forms with a `Bootstrap 4`_ compatible HTML layout / CSS classes, or
+:py:class:`tapeforms.contrib.bootstrap.Bootstrap5TapeformMixin` for `Bootstrap 5`_.
 
 This alternative mixin makes sure that the rendered widgets, fields and labels
 have the correct css classes assigned.
@@ -16,6 +17,9 @@ have the correct css classes assigned.
 In addition, the mixin uses a different template for the fields because Bootstrap
 requires that the ordering of label and widget inside a field is swapped (widget
 first, label second).
+
+.. _Bootstrap 4: https://getbootstrap.com/docs/4.6/
+.. _Bootstrap 5: https://getbootstrap.com/docs/5.0/
 
 
 Foundation mixin
