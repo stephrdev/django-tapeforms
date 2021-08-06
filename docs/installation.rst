@@ -1,8 +1,8 @@
 Installation
 ============
 
-django-tapeforms supports Python 3 only and requires at least Django 1.11 (because
-of the template based widget rendering). No other dependencies are required.
+django-tapeforms supports Python 3 only and requires at least Django 2.2.
+No other dependencies are required.
 
 To start, simply install the latest stable package using the command
 
