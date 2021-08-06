@@ -29,7 +29,7 @@ and some Django template tags to help you render your forms to HTML.
 Requirements
 ------------
 
-django-tapeforms supports Python 3 only and requires at least Django 2.
+django-tapeforms supports Python 3 only and requires at least Django 2.2.
 No other dependencies are required.
 
 
