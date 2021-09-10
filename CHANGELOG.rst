@@ -1,6 +1,18 @@
 Changelog
 =========
 
+Unreleased
+----------
+
+* Rename Bootstrap mixin to ``Bootstrap4TapeformMixin``, an alias is kept for
+  backward compatibility but it will be deprecated and removed at some time
+* Remove 'small' CSS class from the help text in Boostrap mixin
+* Use 'form-field-' as prefix for container CSS class instead of the value
+  returned by ``get_field_container_css_class``
+* Add a new ``Bootstrap5TapeformMixin`` mixin for Bootstrap v5
+* Add 'form-group' CSS class to checkbox container in Bootstrap mixin
+
+
 1.0.1 - 2021-04-28
 ------------------
 
