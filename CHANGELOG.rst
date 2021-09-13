@@ -1,8 +1,8 @@
 Changelog
 =========
 
-Unreleased
-----------
+1.1.0 - 2021-09-13
+------------------
 
 * Rename Bootstrap mixin to ``Bootstrap4TapeformMixin``, an alias is kept for
   backward compatibility but it will be deprecated and removed at some time
