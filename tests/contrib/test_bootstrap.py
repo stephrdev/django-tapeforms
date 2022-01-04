@@ -17,6 +17,7 @@ class DummyBaseForm(forms.Form):
     checkbox = forms.BooleanField()
     clearable_file = forms.FileField(required=False)
     radio_select = forms.MultipleChoiceField(choices=CHOICES, widget=forms.RadioSelect)
+    splitdatetime = forms.SplitDateTimeField()
 
 
 class Dummy4Form(Bootstrap4TapeformMixin, DummyBaseForm):

@@ -1,6 +1,11 @@
 Changelog
 =========
 
+Unreleased
+----------
+
+* Replace '.form-row' by grid system in Bootstrap v5 multiple widgets
+
 1.1.0 - 2021-09-13
 ------------------
 
