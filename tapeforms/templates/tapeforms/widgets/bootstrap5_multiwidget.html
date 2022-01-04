@@ -1,4 +1,4 @@
-<div class="row gx-2">
+<div class="row gx-2{% if 'is-invalid' in widget.attrs.class %} is-invalid{% endif %}">
 	{% for widget in widget.subwidgets %}
 		<div class="col">{% include widget.template_name %}</div>
 	{% endfor %}

@@ -1,5 +1,6 @@
 from pathlib import Path
 
+import pytest
 from django.template import Context, Template
 from django.test.html import parse_html
 
@@ -42,9 +43,19 @@ class FormFieldsSnapshotTestMixin:
 
     base_snapshot_dir = Path('tests', 'snapshots')
 
-    def test_form_field_render(self, field_name, snapshot):
-        output = Template('{% load tapeforms %}{% formfield field %}').render(
-            Context({'field': self.form_class()[field_name]})
+    @pytest.fixture(autouse=True)
+    def setupSnapshot(self, snapshot):
+        self.snapshot = snapshot
+        self.snapshot.snapshot_dir = self.base_snapshot_dir / self.snapshot_dir
+
+    def assertSnapshotMatch(self, output, file_name):
+        self.snapshot.assert_match(prettify_html(parse_html(output)), file_name)
+
+    def render_formfield(self, field):
+        return Template('{% load tapeforms %}{% formfield field %}').render(
+            Context({'field': field})
         )
-        snapshot.snapshot_dir = self.base_snapshot_dir / self.snapshot_dir
-        snapshot.assert_match(prettify_html(parse_html(output)), 'field_%s.html' % (field_name))
+
+    def test_form_field_render(self, field_name):
+        output = self.render_formfield(self.form_class()[field_name])
+        self.assertSnapshotMatch(output, 'field_%s.html' % (field_name))

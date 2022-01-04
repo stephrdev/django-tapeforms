@@ -43,7 +43,15 @@ class TestBootstrap4TapeformMixin(FormFieldsSnapshotTestMixin):
         widget = form.fields['text'].widget
         assert sorted(widget.attrs['class'].split(' ')) == ['form-control', 'is-invalid']
 
+    def test_invalid_multiwidget_render(self):
+        output = self.render_formfield(self.form_class({})['splitdatetime'])
+        self.assertSnapshotMatch(output, 'field_splitdatetime__invalid.html')
+
 
 class TestBootstrap5TapeformMixin(FormFieldsSnapshotTestMixin):
     form_class = Dummy5Form
     snapshot_dir = 'bootstrap5'
+
+    def test_invalid_multiwidget_render(self):
+        output = self.render_formfield(self.form_class({})['splitdatetime'])
+        self.assertSnapshotMatch(output, 'field_splitdatetime__invalid.html')
