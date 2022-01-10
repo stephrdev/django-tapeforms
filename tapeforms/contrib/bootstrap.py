@@ -81,6 +81,14 @@ class Bootstrap5TapeformMixin(Bootstrap4TapeformMixin):
     #: Almost all labels need a CSS class "form-label".
     field_label_css_class = 'form-label'
 
+    #: Widgets with multiple inputs require some extra care (don't use ul, etc.)
+    widget_template_overrides = {
+        forms.SelectDateWidget: 'tapeforms/widgets/bootstrap5_multiwidget.html',
+        forms.SplitDateTimeWidget: 'tapeforms/widgets/bootstrap5_multiwidget.html',
+        forms.RadioSelect: 'tapeforms/widgets/bootstrap_multipleinput.html',
+        forms.CheckboxSelectMultiple: 'tapeforms/widgets/bootstrap_multipleinput.html',
+    }
+
     def get_widget_css_class(self, field_name, field):
         """
         Returns "form-check-input" if input widget is checkable, or
