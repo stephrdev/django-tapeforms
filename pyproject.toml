@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-tapeforms"
-version = "1.1.0"
+version = "1.2.0"
 description = "A helper to render Django forms using HTML templates."
 authors = [
 	"Stephan Jaekel <steph@rdev.info>",
