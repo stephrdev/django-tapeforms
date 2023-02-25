@@ -7,6 +7,7 @@ Unreleased
 * Replace removed '.form-row' by grid system in Bootstrap v5 multiple widgets
 * Add '.is-invalid' to multiple widget container in Bootstrap mixins to display
   the '.invalid-feedback' elements
+* Drop "official" support for Python < 3.8, add support for Django 4.1
 
 1.1.0 - 2021-09-13
 ------------------

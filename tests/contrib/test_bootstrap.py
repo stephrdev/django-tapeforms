@@ -1,3 +1,4 @@
+from django import VERSION as django_version
 from django import forms
 
 from tapeforms.contrib.bootstrap import (
@@ -35,7 +36,7 @@ def test_compatibility_mixin():
 
 class TestBootstrap4TapeformMixin(FormFieldsSnapshotTestMixin):
     form_class = Dummy4Form
-    snapshot_dir = 'bootstrap4'
+    snapshot_dir = 'bootstrap4' if django_version[0] < 4 else 'bootstrap4_django4'
 
     def test_apply_widget_invalid_options(self):
         form = self.form_class({})
@@ -50,7 +51,7 @@ class TestBootstrap4TapeformMixin(FormFieldsSnapshotTestMixin):
 
 class TestBootstrap5TapeformMixin(FormFieldsSnapshotTestMixin):
     form_class = Dummy5Form
-    snapshot_dir = 'bootstrap5'
+    snapshot_dir = 'bootstrap5' if django_version[0] < 4 else 'bootstrap5_django4'
 
     def test_invalid_multiwidget_render(self):
         output = self.render_formfield(self.form_class({})['splitdatetime'])
