@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: "actions/checkout@v4"
       - uses: "astral-sh/setup-uv@v5"
-      - name: "Build and publish"
+      - run: "uv build"
+      - run: "uv publish"
         env:
           UV_PUBLISH_TOKEN: ${{ secrets.PYPI_TOKEN }}
-        run: "uv publish"
