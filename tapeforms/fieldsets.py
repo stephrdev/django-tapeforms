@@ -5,7 +5,7 @@ from django.forms.utils import ErrorList
 from .mixins import TapeformLayoutMixin
 
 
-class TapeformFieldset(TapeformLayoutMixin, object):
+class TapeformFieldset(TapeformLayoutMixin):
     """
     Class to render a subset of a form's fields. From a template perspective,
     a fieldset looks quite similar to a form (and can use the same template tag
@@ -33,7 +33,7 @@ class TapeformFieldset(TapeformLayoutMixin, object):
                       for rendering around (like a fieldset headline.
         :return: A configured fieldset instance.
         """
-        assert fields or exclude is not None, 'Please provide fields or exclude argument.'
+        assert fields or exclude is not None, "Please provide fields or exclude argument."
 
         self.form = form
         self.render_fields = fields or ()
@@ -45,12 +45,12 @@ class TapeformFieldset(TapeformLayoutMixin, object):
             self.layout_template = template
 
     def __repr__(self):
-        return '<{cls} form={form}, primary={primary}, fields=({fields})/({exclude})>'.format(
+        return "<{cls} form={form}, primary={primary}, fields=({fields})/({exclude})>".format(
             cls=self.__class__.__name__,
             form=repr(self.form),
             primary=self.primary_fieldset,
-            fields=';'.join(self.render_fields),
-            exclude=';'.join(self.exclude_fields),
+            fields=";".join(self.render_fields),
+            exclude=";".join(self.exclude_fields),
         )
 
     def hidden_fields(self):
@@ -149,14 +149,14 @@ class TapeformFieldsetsMixin:
             return
 
         # Search for primary marker in at least one of the fieldset kwargs.
-        has_primary = any(fieldset.get('primary') for fieldset in fieldsets)
+        has_primary = any(fieldset.get("primary") for fieldset in fieldsets)
 
         for fieldset_kwargs in fieldsets:
             fieldset_kwargs = copy.deepcopy(fieldset_kwargs)
-            fieldset_kwargs['form'] = self
+            fieldset_kwargs["form"] = self
 
             if not has_primary:
-                fieldset_kwargs['primary'] = True
+                fieldset_kwargs["primary"] = True
                 has_primary = True
 
             yield self.get_fieldset(**fieldset_kwargs)

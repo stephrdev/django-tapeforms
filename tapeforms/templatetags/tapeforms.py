@@ -3,7 +3,6 @@ from django.template.loader import render_to_string
 
 from ..fieldsets import TapeformFieldset
 
-
 register = template.Library()
 
 
@@ -30,13 +29,11 @@ def form(context, form, **kwargs):
 
     if not isinstance(form, (forms.BaseForm, TapeformFieldset)):
         raise template.TemplateSyntaxError(
-            'Provided form should be a `Form` instance, actual type: {0}'.format(
-                form.__class__.__name__
-            )
+            f"Provided form should be a `Form` instance, actual type: {form.__class__.__name__}"
         )
 
     return render_to_string(
-        form.get_layout_template(kwargs.get('using', None)),
+        form.get_layout_template(kwargs.get("using", None)),
         form.get_layout_context(),
     )
 
@@ -64,12 +61,10 @@ def formfield(context, bound_field, **kwargs):
 
     if not isinstance(bound_field, forms.BoundField):
         raise template.TemplateSyntaxError(
-            'Provided field should be a `BoundField` instance, actual type: {0}'.format(
-                bound_field.__class__.__name__
-            )
+            f"Provided field should be a `BoundField` instance, actual type: {bound_field.__class__.__name__}"
         )
 
     return render_to_string(
-        bound_field.form.get_field_template(bound_field, kwargs.get('using', None)),
+        bound_field.form.get_field_template(bound_field, kwargs.get("using", None)),
         bound_field.form.get_field_context(bound_field),
     )

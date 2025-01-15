@@ -54,10 +54,10 @@ class TapeformLayoutMixin:
             errors.extend(field.errors)
 
         return {
-            'form': self,
-            'errors': errors,
-            'hidden_fields': self.hidden_fields(),
-            'visible_fields': self.visible_fields(),
+            "form": self,
+            "errors": errors,
+            "hidden_fields": self.hidden_fields(),
+            "visible_fields": self.visible_fields(),
         }
 
     def as_tapeform(self):
@@ -83,7 +83,7 @@ class TapeformMixin(TapeformLayoutMixin):
     field_template_overrides = None
 
     #: The CSS class to apply to the form-field container element.
-    field_container_css_class = 'form-field'
+    field_container_css_class = "form-field"
 
     #: CSS class to append to the rendered field label tag. Optional.
     field_label_css_class = None
@@ -104,12 +104,20 @@ class TapeformMixin(TapeformLayoutMixin):
     #: has errors. Optional.
     widget_invalid_css_class = None
 
+    #: Defer the tapeforms initialization. There are situation where you want to
+    #: control when widget options and templates are applied. Use with care!
+    defer_init_tapeforms = False
+
     def __init__(self, *args, **kwargs):
         """
         The init method is overwritten to apply widget templates and CSS classes.
         """
         super().__init__(*args, **kwargs)
 
+        if not self.defer_init_tapeforms:
+            self.init_tapeforms(*args, **kwargs)
+
+    def init_tapeforms(self, *args, **kwargs):
         for field_name in self.fields:
             self.apply_widget_options(field_name)
             self.apply_widget_template(field_name)
@@ -215,23 +223,23 @@ class TapeformMixin(TapeformLayoutMixin):
 
         # Check if we have an overwritten id in widget attrs,
         # if not use auto_id of bound field.
-        field_id = widget.attrs.get('id') or bound_field.auto_id
+        field_id = widget.attrs.get("id") or bound_field.auto_id
         if field_id:
             field_id = widget.id_for_label(field_id)
 
         return {
-            'form': self,
-            'field': bound_field,
-            'field_id': field_id,
-            'field_name': bound_field.name,
-            'errors': bound_field.errors,
-            'required': bound_field.field.required,
-            'label': bound_field.label,
-            'label_css_class': self.get_field_label_css_class(bound_field),
-            'help_text': mark_safe(bound_field.help_text) if bound_field.help_text else None,
-            'container_css_class': self.get_field_container_css_class(bound_field),
-            'widget_class_name': widget_class_name,
-            'widget_input_type': getattr(widget, 'input_type', None) or widget_class_name,
+            "form": self,
+            "field": bound_field,
+            "field_id": field_id,
+            "field_name": bound_field.name,
+            "errors": bound_field.errors,
+            "required": bound_field.field.required,
+            "label": bound_field.label,
+            "label_css_class": self.get_field_label_css_class(bound_field),
+            "help_text": mark_safe(bound_field.help_text) if bound_field.help_text else None,
+            "container_css_class": self.get_field_container_css_class(bound_field),
+            "widget_class_name": widget_class_name,
+            "widget_input_type": getattr(widget, "input_type", None) or widget_class_name,
         }
 
     def apply_widget_options(self, field_name):
@@ -243,14 +251,14 @@ class TapeformMixin(TapeformLayoutMixin):
         widget = self.fields[field_name].widget
 
         if isinstance(widget, forms.DateInput):
-            widget.input_type = 'date'
+            widget.input_type = "date"
 
         if isinstance(widget, forms.TimeInput):
-            widget.input_type = 'time'
+            widget.input_type = "time"
 
         if isinstance(widget, forms.SplitDateTimeWidget):
-            widget.widgets[0].input_type = 'date'
-            widget.widgets[1].input_type = 'time'
+            widget.widgets[0].input_type = "date"
+            widget.widgets[1].input_type = "time"
 
     def apply_widget_template(self, field_name):
         """
@@ -309,8 +317,8 @@ class TapeformMixin(TapeformLayoutMixin):
         class_name = self.get_widget_css_class(field_name, field)
 
         if class_name:
-            field.widget.attrs['class'] = join_css_class(
-                field.widget.attrs.get('class', None), class_name
+            field.widget.attrs["class"] = join_css_class(
+                field.widget.attrs.get("class", None), class_name
             )
 
     def get_widget_css_class(self, field_name, field):
@@ -344,11 +352,11 @@ class TapeformMixin(TapeformLayoutMixin):
         class_name = self.get_widget_invalid_css_class(field_name, field)
 
         if class_name:
-            field.widget.attrs['class'] = join_css_class(
-                field.widget.attrs.get('class', None), class_name
+            field.widget.attrs["class"] = join_css_class(
+                field.widget.attrs.get("class", None), class_name
             )
 
-        field.widget.attrs['aria-invalid'] = 'true'
+        field.widget.attrs["aria-invalid"] = "true"
 
     def get_widget_invalid_css_class(self, field_name, field):
         """
