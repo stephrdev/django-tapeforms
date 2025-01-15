@@ -1,70 +1,76 @@
-[tool.poetry]
+[project]
 name = "django-tapeforms"
-version = "1.2.0"
+version = "2.0.0"
 description = "A helper to render Django forms using HTML templates."
-authors = [
-	"Stephan Jaekel <steph@rdev.info>",
-]
-license = "MIT"
-readme = "README.rst"
-homepage = 'https://github.com/stephrdev/django-tapeforms'
-repository = 'https://github.com/stephrdev/django-tapeforms'
+authors = [{ name = "Stephan Jaekel", email = "steph@rdev.info" }]
+requires-python = ">=3.8,<4"
 classifiers = [
-	"Development Status :: 5 - Production/Stable",
-	"License :: OSI Approved :: MIT License",
-	"Environment :: Web Environment",
-	"Framework :: Django",
-	"Intended Audience :: Developers",
-	"Operating System :: Unix",
-	"Programming Language :: Python",
-	"Programming Language :: Python :: 3",
+    "Development Status :: 5 - Production/Stable",
+    "License :: OSI Approved :: MIT License",
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Intended Audience :: Developers",
+    "Operating System :: Unix",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
 ]
-packages = [{ include = "tapeforms" }]
-include = ["LICENSE.rst"]
+readme = "README.rst"
+dependencies = [
+    "Django>=4.2"
+]
 
-[tool.poetry.dependencies]
-python = ">=3.8,<4"
+[project.urls]
+Homepage = 'https://github.com/stephrdev/django-tapeforms'
+Repository = 'https://github.com/stephrdev/django-tapeforms'
+Documentation = "https://django-tapeforms.readthedocs.io"
 
-Django = ">=2.2"
-Sphinx = {version = ">=3.5", optional = true}
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "pytest-cov>=5.0",
+    "pytest-django>=4.9",
+    "pytest-snapshot>=0.9",
+    "coverage[toml]>=7.6",
+    "ruff"
+]
 
-[tool.poetry.dev-dependencies]
-pytest = ">=7.1"
-pytest-cov = ">=3.0"
-pytest-django = ">=4.5"
-pytest-flake8 = ">=1.1"
-pytest-isort = ">=3.0"
-pytest-black = ">=0.3"
-pytest-snapshot = ">=0.6"
-flake8 = "<5"
-coverage = {version = ">=6.4", extras = ["toml"]}
+[tool.ruff]
+line-length = 96
+indent-width = 4
+src = ["tapeforms"]
+target-version = "py38"
 
-[tool.poetry.extras]
-docs = ["Sphinx"]
-
-[build-system]
-requires = ["poetry>=1.2"]
-build-backend = "poetry.masonry.api"
+[tool.ruff.lint]
+ignore = ["E501", "E203"]
+select = [
+  # pyupgrade
+  "UP",
+  # pycodestyle error
+  "E",
+  # Pyflakes
+  "F",
+  # isort
+  "I",
+  # pycodestyle warning
+  "W"
+]
 
 [tool.pytest.ini_options]
-addopts = "-v --tb=short --nomigrations"
-testpaths = ["tapeforms", "tests"]
-flake8-max-line-length = 96
-flake8-ignore = ["E203", "E266", "E501", "W503"]
-flake8-max-complexity = 18
-DJANGO_SETTINGS_MODULE = "tests.settings"
-
-[tool.black]
-line-length = 96
-skip-string-normalization = true
-skip-numeric-underscore-normalization = true
-include = "\\.pyi?$"
-exclude = "/(\\.git|\\.tox|build|dist)/"
+addopts = "--verbose --tb=short --nomigrations"
+testpaths = ["tapeforms"]
+DJANGO_SETTINGS_MODULE = "tapeforms.tests.settings"
 
 [tool.coverage.run]
 branch = true
 source = ["tapeforms"]
-omit = ["*/__init__.py"]
+omit = ["*/__init__.py", "*/tests/*"]
 
 [tool.coverage.report]
-exclude_lines = ["raise NotImplementedError"]
+exclude_lines = [
+    "pragma: no cover",
+    "raise NotImplementedError"
+]
+
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"

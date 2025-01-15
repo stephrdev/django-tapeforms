@@ -3,26 +3,25 @@
 
 clean:
 	rm -fr build/ dist/ htmlcov/ __pycache__
-	poetry run make -C docs clean
+	uv run make -C docs clean
 
 correct:
-	poetry run isort tapeforms tests
-	poetry run black -q tapeforms tests
+	uv run ruff check --fix --select I
+	uv run ruff format
 
 docs:
-	poetry run make -C docs html
+	uv run make -C docs html
 
 pytests:
-	@PYTHONPATH=$(CURDIR):${PYTHONPATH} poetry run pytest
+	uv run pytest $(ARGS)
 
-tests:
-	@PYTHONPATH=$(CURDIR):${PYTHONPATH} poetry run pytest --cov --isort --flake8 --black
+tests: lint pytests
 
-coverage-html: pytests
-	poetry run coverage html
+coverage-html:
+	uv run pytest --cov --cov-report=html ${ARGS}
 
 release:
-	@VERSION=`poetry version -s`
+	@VERSION=`grep -E "^version =" pyproject.toml | cut -d\" -f2`
 	@echo About to release $${VERSION}
 	@echo [ENTER] to continue; read
 	git tag -a "$${VERSION}" -m "Version $${VERSION}" && git push --follow-tags

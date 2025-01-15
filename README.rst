@@ -29,22 +29,23 @@ and some Django template tags to help you render your forms to HTML.
 Requirements
 ------------
 
-django-tapeforms supports Python 3 only and requires at least Django 2.2.
+django-tapeforms supports Python 3 only and requires at least Django 4.2.
 No other dependencies are required.
 
 
 Prepare for development
 -----------------------
 
-A Python 3.6 interpreter is required in addition to pipenv.
+The project uses `uv` to manage dependencies and the python environment.
+
+To run the tests, use:
 
 .. code-block:: shell
 
-    $ poetry install
+   $ make tests
 
-
-Now you're ready to start the example project to experiment with tapeforms.
+To start the example project to experiment with tapeforms, run:
 
 .. code-block:: shell
 
-    $ poetry run python examples/manage.py runserver
+    $ uv run python examples/manage.py runserver

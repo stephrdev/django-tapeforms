@@ -1,6 +1,14 @@
 Changelog
 =========
 
+2.0.0 - 2025-01-15
+------------------
+
+* Add ``defer_init_tapeforms`` to control the tapeforms initialization time
+* Move code of tapeforms initialization to a separate method for better customization
+* Remove `BootstrapTapeformMixin` class alias
+
+
 1.2.0 - 2023-02-25
 ------------------
 
