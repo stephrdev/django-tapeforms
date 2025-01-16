@@ -47,11 +47,6 @@ class TestTapeformFieldset:
         fieldset = TapeformFieldset(form, fields=("my_field1",), template="fieldset.html")
         assert fieldset.layout_template == "fieldset.html"
 
-    def test_init_missing_field_selection(self):
-        form = DummyForm()
-        with pytest.raises(AssertionError):
-            TapeformFieldset(form)
-
     def test_repr(self):
         form = DummyForm()
         fieldset = TapeformFieldset(form, exclude=("my_field3",))
@@ -122,7 +117,11 @@ class TestTapeformFieldsetsMixin:
 
     def test_get_fieldsets_empty(self):
         form = DummyFormWithEmptyFieldsets()
-        assert len(list(form.get_fieldsets())) == 0
+        fieldsets = list(form.get_fieldsets())
+        assert len(fieldsets) == 1
+        assert fieldsets[0].primary_fieldset is True
+        assert [row[0].name for row in fieldsets[0].visible_fields()] == [
+            'my_field1', 'my_field2', 'my_field4']
 
     def test_get_fieldsets_auto_primary(self):
         form = DummyFormWithFieldsets()

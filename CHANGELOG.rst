@@ -1,6 +1,12 @@
 Changelog
 =========
 
+2.2.0 - 2025-01-16
+------------------
+
+* Add default fieldset containing all fields if no fieldsets are defined
+
+
 2.1.0 - 2025-01-16
 ------------------
 

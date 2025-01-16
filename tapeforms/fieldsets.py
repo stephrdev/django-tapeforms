@@ -45,8 +45,6 @@ class TapeformFieldset(TapeformLayoutMixin):
                       for rendering around (like a fieldset headline.
         :return: A configured fieldset instance.
         """
-        assert fields or exclude is not None, "Please provide fields or exclude argument."
-
         self.form = form
         self.render_fields = fields or ()
         self.exclude_fields = exclude or ()
@@ -176,10 +174,7 @@ class TapeformFieldsetsMixin:
                           prevered of the ``fieldsets`` property of the form.
         :return: generator which yields fieldset instances.
         """
-        fieldsets = fieldsets or self.fieldsets
-
-        if not fieldsets:
-            return
+        fieldsets = fieldsets or self.fieldsets or [{}]
 
         # Search for primary marker in at least one of the fieldset kwargs.
         has_primary = any(fieldset.get("primary") for fieldset in fieldsets)
