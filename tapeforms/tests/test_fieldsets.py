@@ -40,7 +40,7 @@ class TestTapeformFieldset:
         fieldset = TapeformFieldset(form, fields=("my_field1",))
         assert fieldset.form == form
         assert fieldset.render_fields == ("my_field1",)
-        assert fieldset.layout_template is None
+        assert fieldset.layout_template == "tapeforms/fieldsets/default.html"
 
     def test_init_with_template(self):
         form = DummyForm()
@@ -58,7 +58,7 @@ class TestTapeformFieldset:
         assert repr(fieldset) == (
             "<TapeformFieldset form=<DummyForm bound=False, valid=Unknown, "
             "fields=(my_field1;my_field2;my_field3;my_field4)>, primary=False, "
-            "fields=()/(my_field3)>"
+            "title=None, fields=()/(my_field3)>"
         )
 
     def test_hidden_fields_primary(self):
@@ -86,19 +86,26 @@ class TestTapeformFieldset:
     def test_visible_fields_with_fields(self):
         form = DummyForm()
         fieldset = TapeformFieldset(form, fields=("my_field1",))
-        assert [f.name for f in fieldset.visible_fields()] == ["my_field1"]
+        assert [f.name for f in fieldset.visible_fields()[0]] == ["my_field1"]
 
     def test_visible_fields_with_fields_and_exclude(self):
         form = DummyForm()
         fieldset = TapeformFieldset(
             form, fields=("my_field1", "my_field2"), exclude=("my_field2",)
         )
-        assert [f.name for f in fieldset.visible_fields()] == ["my_field1"]
+        assert [f.name for f in fieldset.visible_fields()[0]] == ["my_field1"]
 
     def test_visible_fields_with_exclude(self):
         form = DummyForm()
         fieldset = TapeformFieldset(form, exclude=("my_field1",))
-        assert [f.name for f in fieldset.visible_fields()] == ["my_field2", "my_field4"]
+        assert [f.name for f in fieldset.visible_fields()[0]] == ["my_field2"]
+        assert [f.name for f in fieldset.visible_fields()[1]] == ["my_field4"]
+
+    def test_visible_fields_with_columns(self):
+        form = DummyForm()
+        fieldset = TapeformFieldset(form, fields=("my_field1", ("my_field2", "my_field4")))
+        assert [f.name for f in fieldset.visible_fields()[0]] == ["my_field1"]
+        assert [f.name for f in fieldset.visible_fields()[1]] == ["my_field2", "my_field4"]
 
 
 class TestTapeformFieldsetsMixin:

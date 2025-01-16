@@ -3,6 +3,9 @@ Fieldsets
 
 Learn how to organize your form fields in multiple fieldsets and have them rendered nicely.
 
+The fieldset configuration also allowed rendering the fields in columns,
+similar to Django's ModelAdmin.fields feature.
+
 
 Manual fieldsets
 ----------------
@@ -17,13 +20,14 @@ control of whats happening.
         field1 = forms.CharField()
         field2 = forms.CharField()
         field3 = forms.CharField()
-        field4 = forms.CharField(widget=forms.HiddenInput)
+        field4 = forms.CharField()
+        field5 = forms.CharField(widget=forms.HiddenInput)
 
         def first_fieldset(self):
-            return TapeformFieldset(self, fields=('field1', 'field2'), primary=True)
+            return TapeformFieldset(self, fields=('field1', ('field2', 'field3')), primary=True)
 
         def second_fieldset(self):
-            return TapeformFieldset(self, exclude=('field1', 'field1'))
+            return TapeformFieldset(self, exclude=('field1', 'field2', 'field3'))
 
 .. note::
 
@@ -103,7 +107,7 @@ the ``get_fieldsets`` method and pass a config to your super call.
 
 .. code-block:: python
 
-    class MyForm(TapeformMixin, forms.Form):
+    class MyForm(TapeformFieldsetsMixin, TapeformMixin, forms.Form):
         field1 = forms.CharField()
         field2 = forms.CharField()
         field3 = forms.CharField()
@@ -125,7 +129,7 @@ we assume that we require a css class added to the fieldset element.
 
 .. code-block:: python
 
-    class MyForm(TapeformMixin, forms.Form):
+    class MyForm(TapeformFieldsetsMixin, TapeformMixin, forms.Form):
         field1 = forms.CharField()
         field2 = forms.CharField()
         field3 = forms.CharField()
@@ -154,7 +158,7 @@ we assume that we require a css class added to the fieldset element.
 
 
 The extra key in the fieldset configuration is not checked in any way. Its just passed
-around. You might use it to carry things in a ``dic`` like in the example or push
+around. You might use it to carry things in a ``dict`` like in the example or push
 a model instance to the template for further use.
 
 

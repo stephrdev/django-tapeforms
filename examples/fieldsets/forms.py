@@ -1,4 +1,5 @@
 from django import forms
+from tapeforms.contrib.bootstrap import Bootstrap5TapeformMixin
 from tapeforms.fieldsets import TapeformFieldset, TapeformFieldsetsMixin
 from tapeforms.mixins import TapeformMixin
 
@@ -29,9 +30,6 @@ class ManualFieldsetsForm(LargeForm):
 class PropertyFieldsetsForm(TapeformFieldsetsMixin, LargeForm):
     fieldsets = (
         {
-            "extra": {
-                "title": "Basic",
-            },
             "fields": ("first_name", "last_name"),
         },
         {
@@ -42,3 +40,21 @@ class PropertyFieldsetsForm(TapeformFieldsetsMixin, LargeForm):
             "exclude": ("first_name", "last_name"),
         },
     )
+
+
+class BootstrapFieldsetsForm(Bootstrap5TapeformMixin, TapeformFieldsetsMixin, LargeForm):
+    birthdate = forms.DateField()
+
+    fieldsets = (
+        {
+            "title": "Some fancy title",
+            "fields": (("first_name", "last_name"),),
+        },
+        {
+            "exclude": ("first_name", "last_name"),
+        },
+    )
+
+    def clean(self):
+        if not self.cleaned_data.get("first_name") or not self.cleaned_data.get("last_name"):
+            self.add_error(None, "Some name fields are missing.")

@@ -1,0 +1,27 @@
+{% extends 'tapeforms/layouts/bootstrap.html' %}
+{% load tapeforms %}
+
+
+{% block fields %}
+	<div class="card mb-3">
+		{% if form.fieldset_title %}
+			<div class="card-header">{{ form.fieldset_title }}</div>
+		{% endif %}
+
+		<div class="card-body">
+			{{ block.super }}
+		</div>
+	</div>
+{% endblock %}
+
+{% block visible_fields %}
+	{% for field_row in visible_fields %}
+		<div class="{{ form.extra.row_css_class|default:'row' }}">
+			{% for field in field_row %}
+			<div class="{{ form.extra.col_css_class|default:'col' }}">
+					{% formfield field %}
+				</div>
+			{% endfor %}
+		</div>
+	{% endfor %}
+{% endblock %}

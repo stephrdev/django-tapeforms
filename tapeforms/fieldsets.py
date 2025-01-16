@@ -1,7 +1,9 @@
 import copy
+import itertools
 
 from django.forms.utils import ErrorList
 
+from . import defaults
 from .mixins import TapeformLayoutMixin
 
 
@@ -12,8 +14,17 @@ class TapeformFieldset(TapeformLayoutMixin):
     to render: ``form``.
     """
 
+    layout_template = defaults.FIELDSET_DEFAULT_TEMPLATE
+
     def __init__(
-        self, form, fields=None, exclude=None, primary=False, template=None, extra=None
+        self,
+        form,
+        fields=None,
+        exclude=None,
+        primary=False,
+        title=None,
+        template=None,
+        extra=None,
     ):
         """
         Initializes a fieldset instance to be used like a form in a template.
@@ -24,6 +35,7 @@ class TapeformFieldset(TapeformLayoutMixin):
 
         :param form: The form instance to take fields from.
         :param fields: A list of visible field names to include in this fieldset.
+                       Supports columns similar to Django's admin fields.
         :param exclude: A list of visible fields to _not_ include in this fieldset.
         :param primary: If the fieldset is `primary`, this fieldset is responsible
                         for rendering the hidden fields and non field errors.
@@ -39,16 +51,18 @@ class TapeformFieldset(TapeformLayoutMixin):
         self.render_fields = fields or ()
         self.exclude_fields = exclude or ()
         self.primary_fieldset = primary
+        self.fieldset_title = title
         self.extra = extra or {}
 
         if template:
             self.layout_template = template
 
     def __repr__(self):
-        return "<{cls} form={form}, primary={primary}, fields=({fields})/({exclude})>".format(
+        return "<{cls} form={form}, primary={primary}, title={title}, fields=({fields})/({exclude})>".format(
             cls=self.__class__.__name__,
             form=repr(self.form),
             primary=self.primary_fieldset,
+            title=self.fieldset_title,
             fields=";".join(self.render_fields),
             exclude=";".join(self.exclude_fields),
         )
@@ -86,14 +100,33 @@ class TapeformFieldset(TapeformLayoutMixin):
         """
 
         form_visible_fields = self.form.visible_fields()
+        form_visible_fields_map = {field.name: field for field in form_visible_fields}
 
         if self.render_fields:
-            fields = self.render_fields
+            fields = [
+                (field,) if not isinstance(field, (tuple, list)) else field
+                for field in self.render_fields
+            ]
         else:
-            fields = [field.name for field in form_visible_fields]
+            fields = [(field.name,) for field in form_visible_fields]
 
-        filtered_fields = [field for field in fields if field not in self.exclude_fields]
-        return [field for field in form_visible_fields if field.name in filtered_fields]
+        filtered_fields = [
+            field
+            for field in itertools.chain.from_iterable(fields)
+            if field not in self.exclude_fields
+        ]
+
+        visible_field_rows = []
+
+        for field_names in fields:
+            field_row = []
+            for field_name in field_names:
+                if field_name in filtered_fields:
+                    field_row.append(form_visible_fields_map[field_name])
+            if field_row:
+                visible_field_rows.append(field_row)
+
+        return visible_field_rows
 
 
 class TapeformFieldsetsMixin:

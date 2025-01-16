@@ -1,0 +1,23 @@
+{% extends 'tapeforms/layouts/default.html' %}
+{% load tapeforms %}
+
+
+{% block fields %}
+	{% if form.fieldset_title %}
+		<h3>{{ form.fieldset_title }}</h3>
+	{% endif %}
+
+	{{ block.super }}
+{% endblock %}
+
+{% block visible_fields %}
+	{% for field_row in visible_fields %}
+		<div class="field-row">
+			{% for field in field_row %}
+				<div class="field-col">
+					{% formfield field %}
+				</div>
+			{% endfor %}
+		</div>
+	{% endfor %}
+{% endblock %}

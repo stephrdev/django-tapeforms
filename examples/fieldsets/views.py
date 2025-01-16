@@ -1,6 +1,6 @@
 from django.views.generic import FormView
 
-from .forms import ManualFieldsetsForm, PropertyFieldsetsForm
+from .forms import BootstrapFieldsetsForm, ManualFieldsetsForm, PropertyFieldsetsForm
 
 
 class ManualFieldsetsView(FormView):
@@ -11,3 +11,8 @@ class ManualFieldsetsView(FormView):
 class PropertyFieldsetsView(FormView):
     form_class = PropertyFieldsetsForm
     template_name = "fieldsets/property.html"
+
+
+class BootstrapFieldsetsView(FormView):
+    form_class = BootstrapFieldsetsForm
+    template_name = "fieldsets/bootstrap5_view.html"

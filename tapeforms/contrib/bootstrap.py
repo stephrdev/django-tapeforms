@@ -1,6 +1,11 @@
 from django import forms
 
+from ..fieldsets import TapeformFieldset
 from ..mixins import TapeformMixin
+
+
+class BootstrapTapeformFieldset(TapeformFieldset):
+    layout_template = "tapeforms/fieldsets/bootstrap.html"
 
 
 class Bootstrap4TapeformMixin(TapeformMixin):
@@ -27,6 +32,8 @@ class Bootstrap4TapeformMixin(TapeformMixin):
         forms.RadioSelect: "tapeforms/widgets/bootstrap_multipleinput.html",
         forms.CheckboxSelectMultiple: "tapeforms/widgets/bootstrap_multipleinput.html",
     }
+
+    fieldset_class = BootstrapTapeformFieldset
 
     def get_field_container_css_class(self, bound_field):
         """
