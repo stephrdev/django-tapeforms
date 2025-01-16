@@ -45,6 +45,10 @@ class DateTimeDummyForm(TapeformMixin, forms.Form):
     split_dt_field = forms.DateTimeField(widget=forms.SplitDateTimeWidget)
 
 
+class DeferredDateTimeDummyForm(DateTimeDummyForm):
+    defer_init_tapeforms = True
+
+
 class DummyModel(models.Model):
     my_validated_field = models.PositiveIntegerField(
         blank=True, null=True, validators=[MinValueValidator(10)]
@@ -206,6 +210,12 @@ class TestWidgetMethods:
         assert form.fields["date_field"].widget.input_type == "date"
         assert form.fields["split_dt_field"].widget.widgets[0].input_type == "date"
         assert form.fields["split_dt_field"].widget.widgets[1].input_type == "time"
+
+    def test_apply_widget_options_datetime_deferred(self):
+        form = DeferredDateTimeDummyForm()
+        assert form.fields["time_field"].widget.input_type == "text"
+        form.init_tapeforms()
+        assert form.fields["time_field"].widget.input_type == "time"
 
     def test_get_widget_template_name_override(self):
         form = DummyFormWithProperties()
