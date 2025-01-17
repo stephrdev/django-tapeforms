@@ -12,6 +12,10 @@ correct:
 docs:
 	uv run make -C docs html
 
+lint:
+	uv run ruff check
+	uv run ruff format --check --diff
+
 pytests:
 	uv run pytest $(ARGS)
 

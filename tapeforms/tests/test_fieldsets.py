@@ -1,4 +1,3 @@
-import pytest
 from django import forms
 
 from tapeforms.fieldsets import TapeformFieldset, TapeformFieldsetsMixin
@@ -121,7 +120,10 @@ class TestTapeformFieldsetsMixin:
         assert len(fieldsets) == 1
         assert fieldsets[0].primary_fieldset is True
         assert [row[0].name for row in fieldsets[0].visible_fields()] == [
-            'my_field1', 'my_field2', 'my_field4']
+            "my_field1",
+            "my_field2",
+            "my_field4",
+        ]
 
     def test_get_fieldsets_auto_primary(self):
         form = DummyFormWithFieldsets()
